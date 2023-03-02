@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: #FFFEF8;
 }
 ol, ul {
 	list-style: none;
@@ -125,6 +126,30 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filtres {
+	font-family: 'Syne';
+	font-size: 16px;
+	color: #1D6154;
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 50px 0 50px 0;	
+}
+
+.filtres li {
+	border: 1px solid #1D6154;
+	padding: 10px;
+	border-radius: 25px;
+}
+
+.filtres li:hover,
+.filtres li:active {
+	color: white;
+	background-color: #1D6154;
+	cursor: pointer;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
