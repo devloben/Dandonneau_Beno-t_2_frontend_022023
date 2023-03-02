@@ -2,8 +2,9 @@
 const reponse = await fetch('http://localhost:5678/api/works')
 const works = await reponse.json()
 
-// Création d'une fonction permettant de rafraichir la listes des travaux
+// Création d'une fonction permettant de rafraichir la liste des travaux
 function initialiseWorks(works) {
+
     //* Affichage de l'ensemble des travaux
     for (let i = 0; i < works.length; i++) {
         
@@ -32,6 +33,7 @@ function initialiseWorks(works) {
     }
 }
 
+// Initialisation de l'affichage de la gallery
 initialiseWorks(works);
 
 //* Création des filtres
@@ -66,6 +68,7 @@ filtreAppartements.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = ""
     initialiseWorks(worksFiltres)
 })
+
 // Hôtels & Restaurants
 const filtreHotelsRestaurants = document.querySelector("#hotels-restaurants");
 
