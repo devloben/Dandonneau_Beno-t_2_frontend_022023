@@ -8,18 +8,17 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
-	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="works.js"></script>
+	<link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li><a href="index.html">projets</a></li>
+			<li><a href="../index.html">projets</a></li>
 			<li>contact</li>
 			<li>login</li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			<li><img src="../assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
@@ -27,14 +26,24 @@
 	
 	<section id="login">
 		<h2>Log in</h2>
-		<form action="#" method="post">
-			<label for="userEmail">E-mail</label>
-			<input type="email" id="userEmail" required>
-			<label for="userPassword">Mot de passe</label>
-			<input type="password" id="userPassword" required>
-			<input type="submit" value="Se connecter">
+
+		<form action="" method="POST" id="login-form">
+		<div class="login-form__email">	
+			<label for="email-saisie">E-mail</label>
+			<input type="email" name="email" id="email-saisie">
+		</div>
+
+		<div class="login-form__password">
+			<label for="password-saisie">Mot de passe</label>
+			<input type="password" name="password" id="password-saisie">
+		</div>
+		<div class="login-form__submit">
+			<input type="submit" value="Se connecter" id="submit-btn">
+		</div>
 		</form>
+
 		<p>Mot de passe oublié</p>
+		<p>Erreur de saisie</p>
 	</section>
 </main>
 
@@ -45,5 +54,8 @@
 		</ul>
 	</nav>
 </footer>
+
+<script type="module" src="auth.js"></script>
 </body>
 </html>
+  

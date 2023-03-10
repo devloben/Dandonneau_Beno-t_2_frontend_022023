@@ -35,7 +35,7 @@ function initialiseWorks(works) {
 
 // Initialisation de l'affichage de la gallery
 initialiseWorks(works);
-
+ 
 //* Création des filtres
 
 // Tous

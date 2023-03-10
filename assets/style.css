@@ -157,8 +157,7 @@ li a {
 	border-radius: 25px;
 }
 
-.filtres li:hover,
-.filtres li:active {
+.filtres li:hover {
 	color: white;
 	background-color: #1D6154;
 	cursor: pointer;
@@ -223,6 +222,7 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
 #login {
@@ -240,11 +240,12 @@ input[type="submit"]{
 	margin-bottom: 20px;
 }
 
-#login form {
+#login-form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
+	
 }
 
 #login input {
@@ -263,15 +264,9 @@ input[type="submit"]{
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
+.login-form__email, .login-form__password, .login-form__submit {
+	display: flex;
+	flex-direction: column;
 }
 
 footer nav ul {
