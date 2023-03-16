@@ -29,7 +29,6 @@ function initialiseWorks(works) {
         // Rattachement des éléments à la fiche
         workElement.appendChild(imageElement)
         workElement.appendChild(captionElement)
-    
     }
 }
 
@@ -79,4 +78,36 @@ filtreHotelsRestaurants.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = ""
     initialiseWorks(worksFiltres)
 })
+
+//* Mode publication
+
+// Afficher la loginBarre si l'utilisateur est authentifié
+function publication () {
+    if (localStorage.getItem('userId') && localStorage.getItem('token')) {
+
+        const body = document.querySelector('body')
+
+        const header = document.querySelector('header')
+        header.classList.add('header-login')
+
+        const loginBarre = document.createElement('div')
+        loginBarre.classList.add('login-barre')
+
+        const icone = document.createElement('i')
+        icone.classList.add('fa-solid', 'fa-pen-to-square', 'fa-lg')
+
+        const p = document.createElement('p')
+        p.innerText = 'Mode édition'
+
+        const publier = document.createElement('p')
+        publier.classList.add('login-barre__publier')
+        publier.innerText = 'publier les changements'
+        
+        body.prepend(loginBarre)
+        loginBarre.append(icone)
+        loginBarre.append(p)
+        loginBarre.append(publier)
+    }
+}
+publication()
 

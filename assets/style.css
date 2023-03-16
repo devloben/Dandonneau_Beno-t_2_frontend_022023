@@ -60,7 +60,7 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
 }
 
 section {
@@ -245,7 +245,6 @@ input[type="submit"]{
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
-	
 }
 
 #login input {
@@ -269,9 +268,53 @@ input[type="submit"]{
 	flex-direction: column;
 }
 
+#submit-btn{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+	cursor: pointer;
+}
+
+#error_msg {
+	text-align: center;
+	margin-bottom: 5px;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
 	height: 50px;
+}
+
+/* Login Barre */
+.header-login {
+	margin-top: 100px;
+}
+
+.login-barre {
+	background-color: black;
+	height: 60px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	color: white;
+}
+
+.login-barre__publier {
+	display: block;
+	background-color: white;
+	color: black;
+	padding: 10px;
+	border-radius: 25px;
 }

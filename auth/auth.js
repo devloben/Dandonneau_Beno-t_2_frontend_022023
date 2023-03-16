@@ -1,44 +1,56 @@
+function gestionErreurs(response) {
+    if (!response || response.status === 500) {
+        throw new Error('Le serveur ne répond pas, réessayez ultérieurement.')
+    } else if (response.status === 404) {
+        throw new Error('Couple login mot de passe incorrect')
+    }
+}
+
+function affichageErreurs(err) {
+    let msg = err.message
+    let err_elem = document.getElementById('error_msg')
+    err_elem.innerText = msg
+    err_elem.style.color = 'red'
+}
+
+// Authentification de l'utilisateur
+const loginForm = document.getElementById('login-form')
+loginForm.addEventListener('submit', authentification)
 
 
+ async function authentification(e) {
+    e.preventDefault()
+    const loginObjet = {
+        email: document.querySelector('#email').value,
+        password: document.querySelector('#password').value
+    }
+        const response = await fetch('http://localhost:5678/api/users/login', {
+            method: "POST",
+            headers: { 
+                "Accept": "application/json",
+                "Content-Type": "application/json" },
+            body: JSON.stringify(loginObjet)
+            })
+        try{ 
+            gestionErreurs(response)
 
+            const jsonResponse = await response.json()
+            
+            const id = jsonResponse.userId
+            const token = jsonResponse.token
 
-//Modèle
-//  Ajout de la fonction permettant d'envoyer un avis
-// export function ajoutListenersEnvoyerAvis() {
-//     const formulaireAvis = document.querySelector(".formulaire-avis")
-//     formulaireAvis.addEventListener("submit", function(event) {
-//         event.preventDefault()
+            // Envoi du login sur le Local Storage
+            window.localStorage.setItem("userId", id)
+            window.localStorage.setItem("token", token)
 
-        // Création d'un objet contenant le nouvel avis (la Charge Utile)
-        // const avis = {
-        //     pieceId: parseInt(event.target.querySelector("[name=piece-id]").value),
-        //     utilisateur: event.target.querySelector("[name=utilisateur]").value,
-        //     commentaire: event.target.querySelector("[name=commentaire]").value,
-        //     nbEtoiles: parseInt(event.target.querySelector("[name=nbEtoiles]").value)
-        // }
-        
+            // Redirection page d'accueil
+            window.location.href = '../index.html'
 
-        // Conversion de la la Charge Utile au format JSON
-        // const chargeUtile = JSON.stringify(avis)
+        } catch(err) {
+            affichageErreurs(err)
+        }
+}
 
-        // Appel de la fontion fetch avec toutes les informations nécessaires
-//         fetch("http://localhost:8081/avis", {
-//             method: "POST",
-//             headers: { "Content-Type": "application/json" },
-//             body: chargeUtile
-//         })
-//     })
-// }
-/*
-<form class="formulaire-avis">
-    Identifiant de la pièce :<br>
-    <input type="number" name="piece-id"><br>
-    Nom d'utilisateur :<br>
-    <input type="text" name="utilisateur"><br>
-    Avis :<br>
-    <input type="text" name="commentaire"><br>
-    Note :<br>
-    <input type="number" name="nbEtoiles" min="0" max="5"><br>
-    <button>Envoyer</button>
-</form>
-*/
+  
+// email: sophie.bluel@test.tld
+// password: S0phie 
