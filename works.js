@@ -2,6 +2,7 @@
 const reponse = await fetch('http://localhost:5678/api/works')
 const works = await reponse.json()
 
+
 // Création d'une fonction permettant de rafraichir la liste des travaux
 function initialiseWorks(works) {
 
@@ -34,6 +35,7 @@ function initialiseWorks(works) {
 
 // Initialisation de l'affichage de la gallery
 initialiseWorks(works);
+
  
 //* Création des filtres
 
@@ -93,21 +95,103 @@ function publication () {
         const loginBarre = document.createElement('div')
         loginBarre.classList.add('login-barre')
 
+        const btnEdition = document.createElement('button')
+        btnEdition.classList.add('login-barre__edition')
+        
         const icone = document.createElement('i')
         icone.classList.add('fa-solid', 'fa-pen-to-square', 'fa-lg')
-
-        const p = document.createElement('p')
-        p.innerText = 'Mode édition'
+        
+        const edition = document.createElement('p')
+        edition.innerText = 'Mode édition'
 
         const publier = document.createElement('p')
         publier.classList.add('login-barre__publier')
         publier.innerText = 'publier les changements'
         
         body.prepend(loginBarre)
-        loginBarre.append(icone)
-        loginBarre.append(p)
+        loginBarre.append(btnEdition)
+        btnEdition.append(icone)
+        btnEdition.append(edition)
         loginBarre.append(publier)
     }
 }
 publication()
+
+// * Boite Modale
+
+// let modal = null
+// const openModal = function(e) {
+//     e.preventDefault() 
+//     modal = document.querySelector(e.target.getAttribute('href'))
+//     modal.style.display = null
+//     modal.removeAttribute('aria-hidden')
+//     modal.setAttribute('aria-modal', 'true')
+//     modal.addEventListener('click', closeModal)
+//     modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+//     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+// }
+
+// const closeModal = function (e) {
+//     if (modal === null) return
+//     e.preventDefault(e)
+//     modal.style.display = "none"
+//     modal.setAttribute('aria-hidden', 'true')
+//     modal.removeAttribute('aria-modal')
+//     modal.removeEventListener('click', closeModal)
+//     modal.querySelector('.js-modal-close').removeEventListener('click, closeModal')
+//     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
+//     modal = null
+// }
+ 
+// const stopPropagation = function(e) {
+//     e.stopPropagation()
+// }
+
+// document.querySelectorAll('.js-modal').forEach(a => {
+//     a.addEventListener('click', openModal)
+// })
+
+// window.addEventListener('keydown', function(e) {
+//     if (e.key === "Escape") {
+//         closeModal(e)
+//     }
+// })
+
+
+
+// function modifWorks(works) {
+
+//     for (let i = 0; i < works.length; i++) {
+        
+//         const figure = works[i]
+
+//         const projetListe = document.querySelector(".projet-liste")
+        
+//         const workElement = document.createElement("figure")
+
+//         const edit = document.createElement('p')
+//         edit.innerText = 'éditer'
+
+//         const imageElement = document.createElement("img")
+//         imageElement.src = figure.imageUrl
+
+//         const iconTrash = document.createElement('i')
+//         iconTrash.classList.add('fa-solid', 'fa-trash-can')
+
+//         const iconMove = document.createElement('i')
+//         iconMove.classList.add('fa-solid', 'fa-arrows-up-down-left-right')
+   
+//         projetListe.appendChild(workElement)
+//         workElement.appendChild(imageElement)
+//         workElement.append(edit)
+//         workElement.append(iconTrash)
+//         workElement.append(iconMove)
+//     }
+// }
+// modifWorks(works)
+
+
+
+
+
 
