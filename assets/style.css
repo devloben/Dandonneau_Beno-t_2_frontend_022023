@@ -55,6 +55,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	color: #3D3D3D;
 }
 
 header {
@@ -100,14 +101,20 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+li a:hover {
 	color: #B1663C;
 }
 
-li a {
+li a, a {
 	text-decoration: none;
 	color: black;
 }
+
+main {
+	width: 85%;
+	margin: 0 auto;
+}
+
 
 #introduction {
 	display: flex;
@@ -121,11 +128,12 @@ li a {
 #introduction img {
 	display: block;
 	margin: auto;
-	width: 80%;
+	width: 100%;
 }
 
 #introduction article {
-	flex: 1
+	flex: 1;
+	padding-left: 80px;
 }
 
 #introduction h2 {
@@ -138,7 +146,8 @@ li a {
 
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 .filtres {
@@ -148,12 +157,12 @@ li a {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	margin: 50px 0 50px 0;	
+	margin: 0px 0 50px 0;	
 }
 
 .filtres li {
 	border: 1px solid #1D6154;
-	padding: 10px;
+	padding: 10px 20px 10px 20px;
 	border-radius: 25px;
 }
 
@@ -197,11 +206,17 @@ li a {
 	flex-direction: column;
 }
 
-#contact input {
-	height: 50px;
+#contact input, #ajout-photo, #login input {
+	height: 40px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#contact input:hover, 
+#ajout-photo:hover, 
+#login input:hover {
+	background-color: #0E2F28;
 }
 
 #contact label {
@@ -213,9 +228,9 @@ li a {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+input[type="submit"], #ajout-photo {
 	font-family: 'Syne';
-	font-weight: 700;
+	font-weight: 400;
 	color: white;
 	background-color: #1D6154;
 	margin : 2em auto ;
@@ -223,6 +238,9 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 	cursor: pointer;
+	border: none;
+	height: 40px;
+	font-size: 1.2em;
 }
 
 #login {
@@ -247,12 +265,6 @@ input[type="submit"]{
 	flex-direction: column;
 }
 
-#login input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
 
 #login label {
 	margin: 2em 0 1em 0;
@@ -266,18 +278,6 @@ input[type="submit"]{
 .login-form__email, .login-form__password, .login-form__submit {
 	display: flex;
 	flex-direction: column;
-}
-
-#submit-btn{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-	cursor: pointer;
 }
 
 #error_msg {
@@ -331,5 +331,105 @@ footer nav ul {
 	cursor: pointer;
 }
 
+.mes-projets {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	gap: 40px;
+}
 
+.mes-projets a, .mes-projets i {
+	color: #3D3D3D;
+}
 
+/** Modale */
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-wrapper {
+	overflow: auto;
+	width: 700px;
+	max-width: calc(100vw - 20px);
+	max-height: calc(100vh - 20px);
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+.modal-wrapper h2 {
+	text-align: center;
+	font-family: 'Work Sans';
+	color: black;
+}
+
+.modal-wrapper i {
+	align-self: flex-end;
+}
+
+.modal-wrapper hr {
+	width: 80%;
+}
+
+.projet-liste {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 12px;
+	margin: 50px;
+	width: 80%;
+}
+
+.projet-liste figure {
+	position: relative;
+}
+
+.projet-liste img {
+	width: 100px;
+}
+
+#ajout-photo {
+	width: 300px;
+	margin-bottom: 10px;
+}
+
+#supprimer-galerie {
+	border: 0;
+	background-color: white;
+	font-family: 'Syne';
+	color: #D65353;
+	font-size: 16px;
+	margin-bottom: 20px;
+}
+
+.fa-arrows-up-down-left-right {
+	position: absolute;
+	top:5px;
+	right: 30px;
+	color: white;
+	background-color: black;
+	padding: 4px;
+	border-radius: 3px;
+}
+
+.fa-trash-can {
+	position: absolute;
+	top:5px;
+	right: 5px;
+	color: white;
+	background-color: black;
+	padding: 4px;
+	border-radius: 3px;
+}
