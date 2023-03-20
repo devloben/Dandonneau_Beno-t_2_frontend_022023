@@ -83,6 +83,7 @@ filtreHotelsRestaurants.addEventListener("click", function () {
 
 //* Mode publication
 
+
 // Afficher la loginBarre si l'utilisateur est authentifié
 function publication () {
     if (localStorage.getItem('userId') && localStorage.getItem('token')) {
@@ -123,17 +124,15 @@ function publication () {
         loginBarre.append(edition)
         loginBarre.append(publier)
         mesProjets.append(lienModal)
-
-        
-        
     }
 }
+
 publication()
 
-function logout() {
-    localStorage.removeItem('userId')
-    localStorage.removeItem('token')
-}
+// function logout() {
+//     localStorage.removeItem('userId')
+//     localStorage.removeItem('token')
+// }
 
 // * Boite Modale
 
@@ -175,9 +174,7 @@ window.addEventListener('keydown', function(e) {
     }
 })
 
-
-
-
+// * Affichage des travaux dans la modale
 function modifWorks(works) {
 
     for (let i = 0; i < works.length; i++) {

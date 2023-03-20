@@ -24,6 +24,8 @@ loginForm.addEventListener('submit', authentification)
         email: document.querySelector('#email').value,
         password: document.querySelector('#password').value
     }
+
+    
         const response = await fetch('http://localhost:5678/api/users/login', {
             method: "POST",
             headers: { 
@@ -31,7 +33,7 @@ loginForm.addEventListener('submit', authentification)
                 "Content-Type": "application/json" },
             body: JSON.stringify(loginObjet)
             })
-        try{ 
+    try{     
             gestionErreurs(response)
 
             const jsonResponse = await response.json()
@@ -46,8 +48,9 @@ loginForm.addEventListener('submit', authentification)
             // Redirection page d'accueil
             window.location.href = '../index.html'
 
-        } catch(err) {
-            affichageErreurs(err)
+    } catch(err) {
+        affichageErreurs(err)
+        console.log(err)
         }
 }
 
