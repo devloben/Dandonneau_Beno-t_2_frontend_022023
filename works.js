@@ -81,14 +81,10 @@ filtreHotelsRestaurants.addEventListener("click", function () {
     initialiseWorks(worksFiltres)
 })
 
-//* Mode publication
+//* Mode utilisateur authentifié
 
-
-// Afficher la loginBarre si l'utilisateur est authentifié
-function utilisateurAuthentifie () {
-    if (localStorage.getItem('userId') && localStorage.getItem('token')) {
-
-        const body = document.querySelector('body')
+function barreNoire() {
+    const body = document.querySelector('body')
 
         const loginBarre = document.createElement('div')
         loginBarre.classList.add('login-barre')
@@ -106,29 +102,43 @@ function utilisateurAuthentifie () {
         publier.classList.add('login-barre__publier')
         publier.innerText = 'publier les changements'
 
-        const logOut = document.querySelector('nav ul li:nth-child(3n) a')
-        logOut.innerText = 'logout'
-        logOut.setAttribute('href', '#')
-        
-        const imageAccueil = document.querySelector('#introduction figure')
-        const lienModifier = document.createElement('p')
-        lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'        
-
-        const filtres = document.querySelector('#portfolio ul')
-        filtres.style.display = 'none'
-       
-        const mesProjets = document.querySelector('.mes-projets')
-        const lienModal = document.createElement('a')
-        lienModal.setAttribute('href', '#modal1')
-        lienModal.classList.add('js-modal')
-        lienModal.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
-        
         body.prepend(loginBarre)
         loginBarre.append(icone)
         loginBarre.append(edition)
         loginBarre.append(publier)
-        imageAccueil.append(lienModifier)
-        mesProjets.append(lienModal)
+}
+
+function lienModifier() {
+    const imageAccueil = document.querySelector('#introduction figure')
+    const lienModifier = document.createElement('a')
+    lienModifier.setAttribute('href', '#modal1')
+    lienModifier.classList.add('js-modal')
+    lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier' 
+
+    const mesProjets = document.querySelector('.mes-projets')
+    const lienModal = document.createElement('a')
+    lienModal.setAttribute('href', '#modal1')
+    lienModal.classList.add('js-modal')
+    lienModal.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
+
+    imageAccueil.append(lienModifier)
+    mesProjets.append(lienModal)
+}
+
+// Affiche les éléments de modification
+function utilisateurAuthentifie () {
+    if (localStorage.getItem('userId') && localStorage.getItem('token')) {
+
+        barreNoire()
+
+        const logOut = document.querySelector('nav ul li:nth-child(3n) a')
+        logOut.innerText = 'logout'
+        logOut.setAttribute('href', '#')
+
+        const filtres = document.querySelector('#portfolio ul')
+        filtres.style.display = 'none'
+
+        lienModifier()
     }
 }
 utilisateurAuthentifie()
@@ -142,7 +152,6 @@ function deconnexion() {
 
     window.location.href = './auth/login.html'
 }
-
 document.querySelector('nav ul li:nth-child(3n) a').addEventListener('click', deconnexion)
 
 
