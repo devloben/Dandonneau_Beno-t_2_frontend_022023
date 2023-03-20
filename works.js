@@ -85,16 +85,16 @@ filtreHotelsRestaurants.addEventListener("click", function () {
 
 
 // Afficher la loginBarre si l'utilisateur est authentifié
-function publication () {
+function utilisateurAuthentifie () {
     if (localStorage.getItem('userId') && localStorage.getItem('token')) {
 
         const body = document.querySelector('body')
 
-        const header = document.querySelector('header')
-        header.classList.add('header-login')
-
         const loginBarre = document.createElement('div')
         loginBarre.classList.add('login-barre')
+
+        const header = document.querySelector('header')
+        header.classList.add('header-login')
 
         const icone = document.createElement('i')
         icone.classList.add('fa-solid', 'fa-pen-to-square', 'fa-lg')
@@ -106,9 +106,13 @@ function publication () {
         publier.classList.add('login-barre__publier')
         publier.innerText = 'publier les changements'
 
-        // const logout = document.querySelector('nav ul li a:nth-child(2n)')
-        // logout.innerText = 'logout'
-        // console.log(logout)
+        const logOut = document.querySelector('nav ul li:nth-child(3n) a')
+        logOut.innerText = 'logout'
+        logOut.setAttribute('href', '#')
+        
+        const imageAccueil = document.querySelector('#introduction figure')
+        const lienModifier = document.createElement('p')
+        lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'        
 
         const filtres = document.querySelector('#portfolio ul')
         filtres.style.display = 'none'
@@ -123,16 +127,27 @@ function publication () {
         loginBarre.append(icone)
         loginBarre.append(edition)
         loginBarre.append(publier)
+        imageAccueil.append(lienModifier)
         mesProjets.append(lienModal)
     }
 }
+utilisateurAuthentifie()
 
-publication()
+function deconnexion() {
+    const logIn = document.querySelector('nav ul li:nth-child(3n) a')
+    logIn.innerText = 'login'
+    
+    localStorage.removeItem('userId')
+    localStorage.removeItem('token')
 
-// function logout() {
-//     localStorage.removeItem('userId')
-//     localStorage.removeItem('token')
-// }
+    window.location.href = './auth/login.html'
+}
+
+document.querySelector('nav ul li:nth-child(3n) a').addEventListener('click', deconnexion)
+
+
+
+
 
 // * Boite Modale
 

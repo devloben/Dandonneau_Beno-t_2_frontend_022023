@@ -56,4 +56,4 @@ loginForm.addEventListener('submit', authentification)
 
   
 // email: sophie.bluel@test.tld
-// password: S0phie 
+// password:  S0phie
