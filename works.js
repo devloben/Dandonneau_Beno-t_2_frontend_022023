@@ -108,21 +108,31 @@ function barreNoire() {
         loginBarre.append(publier)
 }
 
-function lienModifier() {
-    const imageAccueil = document.querySelector('#introduction figure')
-    const lienModifier = document.createElement('a')
-    lienModifier.setAttribute('href', '#modal1')
-    lienModifier.classList.add('js-modal')
-    lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier' 
+// function lienModifier() {
+//     const imageAccueil = document.querySelector('#introduction figure')
+//     const lienModifier = document.createElement('a')
+//     lienModifier.setAttribute('href', '#modal1')
+//     lienModifier.classList.add('js-modal')
+//     lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier' 
 
-    const mesProjets = document.querySelector('.mes-projets')
-    const lienModal = document.createElement('a')
-    lienModal.setAttribute('href', '#modal1')
-    lienModal.classList.add('js-modal')
-    lienModal.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
+//     const mesProjets = document.querySelector('.mes-projets')
+//     const lienModal = document.createElement('a')
+//     lienModal.setAttribute('href', '#modal1')
+//     lienModal.classList.add('js-modal')
+//     lienModal.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
 
-    imageAccueil.append(lienModifier)
-    mesProjets.append(lienModal)
+//     imageAccueil.append(lienModifier)
+//     mesProjets.append(lienModal)
+// }
+
+function liensModifier(position, lien) {
+    const choixPosition = document.querySelector(position)
+    const choixLien = document.createElement('a')
+    choixLien.setAttribute('href', lien)
+    choixLien.classList.add('js-modal')
+    choixLien.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
+
+    choixPosition.append(choixLien)
 }
 
 // Affiche les éléments de modification
@@ -138,7 +148,8 @@ function utilisateurAuthentifie () {
         const filtres = document.querySelector('#portfolio ul')
         filtres.style.display = 'none'
 
-        lienModifier()
+        liensModifier('#introduction figure', '#')
+        liensModifier('.mes-projets', '#modal1')
     }
 }
 utilisateurAuthentifie()
