@@ -17,7 +17,6 @@ function affichageErreurs(err) {
 const loginForm = document.getElementById('login-form')
 loginForm.addEventListener('submit', authentification)
 
-
  async function authentification(e) {
     e.preventDefault()
     const loginObjet = {

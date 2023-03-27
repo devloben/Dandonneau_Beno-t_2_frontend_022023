@@ -34,14 +34,12 @@ function initialiseWorks(works) {
 }
 
 // Initialisation de l'affichage de la gallery
-initialiseWorks(works);
+initialiseWorks(works)
 
  
 //* Création des filtres
 
-// Tous
 const filtreTous = document.querySelector("#tous")
-
 filtreTous.addEventListener("click", function() {
     const worksTous = works.filter(function(work) {
         return work.id
@@ -49,9 +47,7 @@ filtreTous.addEventListener("click", function() {
     initialiseWorks(worksTous)
 })
 
-// Objets
 const filtreObjets = document.querySelector("#objets")
-
 filtreObjets.addEventListener("click", function () {
     const worksFiltres = works.filter(function (work) {
         return work.categoryId == 1
@@ -59,9 +55,8 @@ filtreObjets.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = ""
     initialiseWorks(worksFiltres)
 })
-// Appartements
-const filtreAppartements = document.querySelector("#appartements")
 
+const filtreAppartements = document.querySelector("#appartements")
 filtreAppartements.addEventListener("click", function () {
     const worksFiltres = works.filter(function (work) {
         return work.categoryId == 2
@@ -70,9 +65,7 @@ filtreAppartements.addEventListener("click", function () {
     initialiseWorks(worksFiltres)
 })
 
-// Hôtels & Restaurants
 const filtreHotelsRestaurants = document.querySelector("#hotels-restaurants");
-
 filtreHotelsRestaurants.addEventListener("click", function () {
     const worksFiltres = works.filter(function (work) {
         return work.categoryId == 3
@@ -80,6 +73,7 @@ filtreHotelsRestaurants.addEventListener("click", function () {
     document.querySelector(".gallery").innerHTML = ""
     initialiseWorks(worksFiltres)
 })
+
 
 //* Mode utilisateur authentifié
 
@@ -108,23 +102,6 @@ function barreNoire() {
         loginBarre.append(publier)
 }
 
-// function lienModifier() {
-//     const imageAccueil = document.querySelector('#introduction figure')
-//     const lienModifier = document.createElement('a')
-//     lienModifier.setAttribute('href', '#modal1')
-//     lienModifier.classList.add('js-modal')
-//     lienModifier.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier' 
-
-//     const mesProjets = document.querySelector('.mes-projets')
-//     const lienModal = document.createElement('a')
-//     lienModal.setAttribute('href', '#modal1')
-//     lienModal.classList.add('js-modal')
-//     lienModal.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
-
-//     imageAccueil.append(lienModifier)
-//     mesProjets.append(lienModal)
-// }
-
 function liensModifier(position, lien) {
     const choixPosition = document.querySelector(position)
     const choixLien = document.createElement('a')
@@ -136,14 +113,14 @@ function liensModifier(position, lien) {
 }
 
 // Affiche les éléments de modification
+const login = document.querySelector('nav ul li:nth-child(3n) a')
 function utilisateurAuthentifie () {
     if (localStorage.getItem('userId') && localStorage.getItem('token')) {
 
         barreNoire()
-
-        const logOut = document.querySelector('nav ul li:nth-child(3n) a')
-        logOut.innerText = 'logout'
-        logOut.setAttribute('href', '#')
+        
+        login.innerText = 'logout'
+        login.setAttribute('href', '#')
 
         const filtres = document.querySelector('#portfolio ul')
         filtres.style.display = 'none'
@@ -154,19 +131,16 @@ function utilisateurAuthentifie () {
 }
 utilisateurAuthentifie()
 
+
 function deconnexion() {
-    const logIn = document.querySelector('nav ul li:nth-child(3n) a')
-    logIn.innerText = 'login'
+    login.innerText = 'login'
     
     localStorage.removeItem('userId')
     localStorage.removeItem('token')
 
-    window.location.href = './auth/login.html'
+    window.location.href = 'login.html'
 }
-document.querySelector('nav ul li:nth-child(3n) a').addEventListener('click', deconnexion)
-
-
-
+login.addEventListener('click', deconnexion)
 
 
 // * Boite Modale
@@ -179,8 +153,10 @@ const openModal = function(e) {
     modal.removeAttribute('aria-hidden')
     modal.setAttribute('aria-modal', 'true')
     modal.addEventListener('click', closeModal)
-    modal.querySelector('.js-modal-close').addEventListener('click', closeModal)
+    modal.querySelectorAll('.js-modal-close').forEach(e => {e.addEventListener('click', closeModal)})
     modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+    modalWrapperGalerie.style.display = null
+    modalWrapperAjoutPhoto.style.display = 'none'
 }
 
 const closeModal = function (e) {
@@ -190,9 +166,11 @@ const closeModal = function (e) {
     modal.setAttribute('aria-hidden', 'true')
     modal.removeAttribute('aria-modal')
     modal.removeEventListener('click', closeModal)
-    modal.querySelector('.js-modal-close').removeEventListener('click, closeModal')
+    modal.querySelector('.js-modal-close').removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
-    modal = null
+    modal = null 
+    location.reload();
+
 }
  
 const stopPropagation = function(e) {
@@ -210,10 +188,74 @@ window.addEventListener('keydown', function(e) {
 })
 
 // * Affichage des travaux dans la modale
+
+const token = window.localStorage.getItem('token')
+function suppressionWork() {
+    
+    const worksElements = document.querySelectorAll('.projet-liste figure i:nth-child(2n)')
+    const worksElementsEfface = document.querySelectorAll('.projet-liste figure')
+    
+    for (let i = 0; i < worksElements.length; i++) {
+        worksElements[i].addEventListener('click', async function (event) {
+            const id = event.target.dataset.id
+            const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+                method: "DELETE",
+                headers: {Authorization: `Bearer ${token}`}
+            })
+        worksElementsEfface[i].remove()
+        })   
+    }
+}
+
+
+
+// Navigation aller et retour entre Gallerie et Aout Photo
+
+const modalWrapperGalerie = document.querySelector('.modal-wrapper__galerie')
+const modalWrapperAjoutPhoto = document.querySelector('.modal-wrapper__ajout-photo')
+
+function pageAjoutPhoto() {
+    const btnAjouterPhoto = document.querySelector('#ajout-photo')
+    btnAjouterPhoto.addEventListener('click', function() {
+        modalWrapperGalerie.style.display = "none"
+        modalWrapperAjoutPhoto.style.display = null
+    })
+}
+pageAjoutPhoto()
+
+function retourGalerie() {
+    const flecheRetour = document.querySelector('.fa-arrow-left')
+    flecheRetour.addEventListener('click', function() {
+        modalWrapperGalerie.style.display = null
+        modalWrapperAjoutPhoto.style.display = 'none'
+    })
+}
+retourGalerie()
+
+//! Travaux en cours
+let uploadButton = document.getElementById("upload-button");
+let chosenImage = document.getElementById("chosen-image");
+// let fileName = document.getElementById("file-name");
+
+uploadButton.onchange = () => {
+    let reader = new FileReader();
+    reader.readAsDataURL(uploadButton.files[0]);
+    reader.onload = () => {
+        chosenImage.setAttribute("src",reader.result);
+    }
+
+    let aMasquer = document.querySelector('.a-masquer')
+    aMasquer.style.display = "none"
+    // fileName.textContent = uploadButton.files[0].name;
+}
+
+//! Fin de travaux en cours
+
+//Affichage des travaux dans la modale
 function modifWorks(works) {
 
     for (let i = 0; i < works.length; i++) {
-        
+    
         const figure = works[i]
 
         const projetListe = document.querySelector(".projet-liste")
@@ -231,6 +273,7 @@ function modifWorks(works) {
 
         const iconTrash = document.createElement('i')
         iconTrash.classList.add('fa-solid', 'fa-trash-can')
+        iconTrash.dataset.id = figure.id
    
         projetListe.appendChild(workElement)
         workElement.appendChild(imageElement)
@@ -238,8 +281,12 @@ function modifWorks(works) {
         workElement.append(iconMove)
         workElement.append(iconTrash)
     }
+    suppressionWork()
 }
 modifWorks(works)
+
+
+
 
 
 
