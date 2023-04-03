@@ -1,44 +1,36 @@
 //* Création des filtres
 
-// Tous
-const filtreTous = document.querySelector("#tous")
-
-filtreTous.addEventListener("click", function() {
-    const worksTous = works.filter(function(work) {
+const FILTRE_TOUS = document.querySelector("#tous")
+FILTRE_TOUS.addEventListener("click", function() {
+    const WORKS_FILTRE = WORKS.filter(function(work) {
         return work.id
     })
-    initialiseWorks(worksTous)
+    initialiseWorks(WORKS_FILTRE)
 })
 
-// Objets
-const filtreObjets = document.querySelector("#objets")
-
-filtreObjets.addEventListener("click", function () {
-    const worksFiltres = works.filter(function (work) {
+const FILTRE_OBJETS = document.querySelector("#objets")
+FILTRE_OBJETS.addEventListener("click", function () {
+    const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 1
     })
     document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(worksFiltres)
+    initialiseWorks(WORKS_FILTRE)
 })
 
-// Appartements
-const filtreAppartements = document.querySelector("#appartements")
-
-filtreAppartements.addEventListener("click", function () {
-    const worksFiltres = works.filter(function (work) {
+const FILTRE_APPART = document.querySelector("#appartements")
+FILTRE_APPART.addEventListener("click", function () {
+    const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 2
     })
     document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(worksFiltres)
+    initialiseWorks(WORKS_FILTRE)
 })
 
-// Hôtels & Restaurants
-const filtreHotelsRestaurants = document.querySelector("#hotels-restaurants");
-
-filtreHotelsRestaurants.addEventListener("click", function () {
-    const worksFiltres = works.filter(function (work) {
+const FILTRE_HOTEL_RESTO = document.querySelector("#hotels-restaurants");
+FILTRE_HOTEL_RESTO.addEventListener("click", function () {
+    const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 3
     })
     document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(worksFiltres)
+    initialiseWorks(WORKS_FILTRE)
 })

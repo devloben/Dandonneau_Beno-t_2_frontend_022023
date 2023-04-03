@@ -10,7 +10,6 @@ function affichageErreurs(err) {
     let msg = err.message
     let err_elem = document.getElementById('error_msg')
     err_elem.innerText = msg
-    err_elem.style.color = 'red'
 }
 
 // Authentification de l'utilisateur
