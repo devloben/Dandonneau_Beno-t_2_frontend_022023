@@ -1,12 +1,14 @@
-//* Récupération des travaux depuis le Backend et transformation au format JSON
+async function retrieveWorks() {
+    const REPONSE = await fetch('http://localhost:5678/api/works')
+    const WORKS = await REPONSE.json()
+    return WORKS
+}
 
-const REPONSE = await fetch('http://localhost:5678/api/works')
-const WORKS = await REPONSE.json()
+function removeWorks() {
+    document.querySelector(".gallery").innerHTML = ""
+}
 
-
-//* Création d'une fonction permettant de rafraichir la liste des travaux
-
-function initialiseWorks(WORKS) {
+function drawWorks(WORKS) {
 
     // Affichage de l'ensemble des travaux
     for (let i = 0; i < WORKS.length; i++) {
@@ -37,44 +39,47 @@ function initialiseWorks(WORKS) {
 }
 
 // Initialisation de l'affichage de la gallery
-initialiseWorks(WORKS)
+removeWorks()
+const WORKS = await retrieveWorks()
+drawWorks(WORKS)
 
  
 //* Création des filtres
 
 const FILTRE_TOUS = document.querySelector("#tous")
 FILTRE_TOUS.addEventListener("click", function() {
+    removeWorks()
     const WORKS_FILTRE = WORKS.filter(function(work) {
         return work.id
     })
-    initialiseWorks(WORKS_FILTRE)
+    drawWorks(WORKS_FILTRE)
 })
 
 const FILTRE_OBJETS = document.querySelector("#objets")
 FILTRE_OBJETS.addEventListener("click", function () {
+    removeWorks()
     const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 1
     })
-    document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(WORKS_FILTRE)
+    drawWorks(WORKS_FILTRE)
 })
 
 const FILTRE_APPART = document.querySelector("#appartements")
 FILTRE_APPART.addEventListener("click", function () {
+    removeWorks()
     const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 2
     })
-    document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(WORKS_FILTRE)
+    drawWorks(WORKS_FILTRE)
 })
 
 const FILTRE_HOTEL_RESTO = document.querySelector("#hotels-restaurants");
 FILTRE_HOTEL_RESTO.addEventListener("click", function () {
+    removeWorks()
     const WORKS_FILTRE = WORKS.filter(function (work) {
         return work.categoryId == 3
     })
-    document.querySelector(".gallery").innerHTML = ""
-    initialiseWorks(WORKS_FILTRE)
+    drawWorks(WORKS_FILTRE)
 })
 
 
@@ -115,10 +120,13 @@ function liensModifier(position, lien) {
     POSITION.append(LIEN)
 }
 
+
 //* Vérifie si un utilisateur est authentifié et affiche la mise en page correspondante
 
 const LOGIN = document.querySelector('nav ul li:nth-child(3n) a')
+
 function utilisateurAuthentifie () {
+
     if (localStorage.getItem('userId') && localStorage.getItem('token')) {
 
         loginBarre()
@@ -133,6 +141,7 @@ function utilisateurAuthentifie () {
         liensModifier('.mes-projets', '#modal1')
     }
 }
+
 utilisateurAuthentifie()
 
 
@@ -165,7 +174,7 @@ const OPEN_MODAL = function(e) {
     MODAL_AJOUT_PHOTO.style.display = 'none'
 }
 
-const CLOSE_MODAL = function (e) {
+const CLOSE_MODAL = async function (e) {
     if (modal === null) return
     e.preventDefault(e)
     modal.style.display = "none"
@@ -175,7 +184,9 @@ const CLOSE_MODAL = function (e) {
     modal.querySelector('.js-modal-close').removeEventListener('click', CLOSE_MODAL)
     modal.querySelector('.js-modal-stop').removeEventListener('click', STOP_PROPAGATION)
     modal = null 
-    location.reload();
+    removeWorks()
+    let WORKS = await retrieveWorks()
+    drawWorks(WORKS)
 }
  
 const STOP_PROPAGATION = function(e) {
@@ -203,6 +214,7 @@ function pageAjoutPhoto() {
     BTN_AJOUTER_PHOTO.addEventListener('click', function() {
         MODAL_GALERIE.style.display = "none"
         MODAL_AJOUT_PHOTO.style.display = null
+        btnValiderPhoto.setAttribute('disabled', 'true')
     })
 }
 pageAjoutPhoto()
@@ -216,10 +228,21 @@ function retourGalerie() {
 }
 retourGalerie()
 
+//! Travaux en cours
+
+function removeWorksModal() {
+    document.querySelector(".projet-liste").innerHTML = ""
+}
+
+async function refreshGalerieModal() {
+    removeWorksModal()
+    let modalWORKS = await retrieveWorks()
+    drawWorksModal(modalWORKS)
+}
 
 //* Affichage des travaux dans la modale
 
-function modalWorks(WORKS) {
+function drawWorksModal(WORKS) {
 
     for (let i = 0; i < WORKS.length; i++) {
     
@@ -234,9 +257,16 @@ function modalWorks(WORKS) {
 
         const IMAGE_ELEM = document.createElement("img")
         IMAGE_ELEM.src = WORK.imageUrl
-
+        
         const ICONE_MOVE = document.createElement('i')
-        ICONE_MOVE.classList.add('fa-solid', 'fa-arrows-up-down-left-right')
+        
+        WORK_ELEM.addEventListener('mouseover', () => {
+            ICONE_MOVE.classList.add('fa-solid', 'fa-arrows-up-down-left-right')
+        })
+        
+        WORK_ELEM.addEventListener('mouseout', () => {
+            ICONE_MOVE.classList.remove('fa-solid', 'fa-arrows-up-down-left-right')
+        })
 
         const ICONE_TRASH = document.createElement('i')
         ICONE_TRASH.classList.add('fa-solid', 'fa-trash-can')
@@ -249,8 +279,9 @@ function modalWorks(WORKS) {
         WORK_ELEM.append(ICONE_TRASH)
     }
     suppressionWork()
-}
-modalWorks(WORKS)
+    
+    }
+    drawWorksModal(WORKS)
 
 
 // * Suppression des travaux dans la modale
@@ -269,19 +300,20 @@ function suppressionWork() {
                 method: "DELETE",
                 headers: {Authorization: `Bearer ${TOKEN}`}
             })
-        worksElementsEfface[i].remove()
+        // worksElementsEfface[i].remove()
+        refreshGalerieModal()
         })   
     }
 }
 
-//! Travaux en cours
+
+//! Fin de travaux en cours
 
 //* Formulaire de chargement de nouvelle photo
 
 let uploadButton = document.getElementById("upload-button");
 let chosenImage = document.getElementById("chosen-image");
 let fileName = document.getElementById("file-name");
-
 
 uploadButton.onchange = () => {
     let reader = new FileReader();
@@ -292,30 +324,21 @@ uploadButton.onchange = () => {
     let aMasquer = document.querySelector('.a-masquer')
     aMasquer.style.display = "none"
     fileName.textContent = uploadButton.files[0].name;
-
 }
 
-
-// * Plan d'action
-// Faire en sorte que le formualire ne soit pas actif tant que les 3 champs ne sont pas remplis
-//Récupérer les données pour construire la requête.
+// * Tests des champs - Formulaire Ajouter une nouvelle photo
 
 //Test Photo
 let photo = document.getElementById('upload-button')
 photo.addEventListener('input', function() {
     photoValid(this)
-
 })
 let photoValid = function(saisiePhoto) {
     let testPhoto = saisiePhoto.files[0]
 
-    let msgPhoto = document.getElementById('photoErreur')
-
     if (testPhoto) {
-        msgPhoto.style.display = 'none'
         return true
         } else {
-        msgPhoto.style.display = 'block'
         return false
         }
 }
@@ -328,14 +351,14 @@ titre.addEventListener('input', function() {
 let titreValid = function(saisieTitre) {
     let titreRegex = /[0-9a-zA-Z]{2,}/
     let testTitre = titreRegex.test(saisieTitre.value)
-    let msgTitre = document.getElementById('titreErreur')
+    // let msgTitre = document.getElementById('titreErreur')
 
     if (testTitre) {
-        msgTitre.style.display = 'none'
+        // msgTitre.style.display = 'none'
         return true
         } else {
-        msgTitre.style.display = 'block'
-        msgTitre.style.color = 'red'
+        // msgTitre.style.display = 'none'
+        // msgTitre.style.color = 'red'
         return false
         }
 }
@@ -347,40 +370,58 @@ categorie.addEventListener('input', function() {
 })
 
 let categorieValid = function(saisieCategorie) {
-    let msgCategorie = document.getElementById('categorieErreur')
+    // let msgCategorie = document.getElementById('categorieErreur')
     
     if (saisieCategorie.value != "") {
-        msgCategorie.style.display = 'none'
+        // msgCategorie.style.display = 'none'
         return true
         } else {
-            msgCategorie.style.display = 'block'
-            msgCategorie.style.color = 'red'
+            // msgCategorie.style.display = 'none'
+            // msgCategorie.style.color = 'red'
         return false
         }
 }
 
-// TODO Variables à déclarer au début
-const formAjoutPhoto = document.getElementById('form-ajout-photo')
-
-
 // Modif bouton formulaire
+const formAjoutPhoto = document.getElementById('form-ajout-photo')
 const btnValiderPhoto = document.getElementById('valider-photo')
+const msgErrFormPhoto = document.getElementById('msgErr-form-photo')
+console.log(formAjoutPhoto)
+
 formAjoutPhoto.addEventListener('input', function() {
 
     if (titreValid(titre) && categorieValid(categorie) && photoValid(photo)) {
         btnValiderPhoto.classList.add('valider-photo-ok')
+        btnValiderPhoto.removeAttribute('disabled')
+        msgErrFormPhoto.style.display = 'none'
 
         formAjoutPhoto.addEventListener('submit', envoyerPhoto)
-
-
     } else {
+        
+        msgErrFormPhoto.style.display = 'block'
+        msgErrFormPhoto.style.color = 'red'
         btnValiderPhoto.classList.remove('valider-photo-ok')
     }
 })
 
 // ! Envoi du formulaire Ajout Photo
 
-// Validation du formulaire, construction de la requête serveur
+//Gestion des erreurs
+function gestionErreursAjoutPhoto(response) {
+    if (!response || response.status > 201) {
+        throw new Error('Le serveur ne répond pas, réessayez ultérieurement.')
+    }
+}
+
+function affichageErreursAjoutPhoto(err) {
+    let msg = err.message
+    let err_elem = document.getElementById('msgErr-ajout-photo')
+    err_elem.innerText = msg
+    err_elem.style.color = 'red'
+}
+
+
+//Validation du formulaire, construction de la requête serveur
 async function envoyerPhoto(e) {
     e.preventDefault()
 
@@ -393,21 +434,34 @@ async function envoyerPhoto(e) {
     formData.append('image', image)
     formData.append('category', categorie)
 
-const response = await fetch("http://localhost:5678/api/works", {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${TOKEN}` }, 
-        body: formData
-        })
+    try {
+        const response = await fetch("http://localhost:5678/api/works", {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${TOKEN}` }, 
+            body: formData
+            })
+        
+        gestionErreursAjoutPhoto(response)
+        
+        const msgConfirmationAjoutPhoto = document.getElementById('msgConfirmation-ajout-photo')
+        msgConfirmationAjoutPhoto.style.display = 'block'
+        msgConfirmationAjoutPhoto.style.color = '#1D6154'
+
+        refreshGalerieModal()
+        
+        formAjoutPhoto.reset()
+        document.getElementById('chosen-image').src = ""
+        let aMasquer = document.querySelector('.a-masquer')
+        aMasquer.style.display = null
+
+
+        
+
+    } catch(err) {
+        affichageErreursAjoutPhoto(err)
+        console.log(err)
+    }
 }
-
-
-
-
-//* Test Photo
-
-
-
-//* Envoi de la nouvelle photo
 
 
 //! Fin de travaux en cours

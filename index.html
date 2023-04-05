@@ -26,6 +26,7 @@
 		</ul>
 	</nav>
 </header>
+
 <main>
 	<section id="introduction">
 		<figure>
@@ -49,10 +50,11 @@
 			<li id="appartements">Appartements</li>
 			<li id="hotels-restaurants">Hôtels & Restaurants</li>
 		</ul>
-		<div class="gallery">
+		
+		<div class="gallery"></div>
 
-		</div>
 	</section>
+	
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
@@ -68,6 +70,8 @@
 	</section>
 </main>
 
+<!-- * Fenêtre Modal -->
+
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modif-galerie" style="display: none;" >
 	
 	<div class="modal-wrapper js-modal-stop" >
@@ -80,6 +84,7 @@
 			<input type="button" value="Supprimer la galerie" id="supprimer-galerie">
 		</div>
 
+		<!-- Page Modal Ajout photo -->
 		<div class="modal-wrapper modal-wrapper__ajout-photo" style="display: none;">
 			<div class="retour-fermer">
 				<i class="fa-solid fa-arrow-left fa-2x"></i>
@@ -88,7 +93,7 @@
 			<h2 id="modif-galerie">Ajout photo</h2>
 
 			<!--! Formulaire Ajout photo  -->
-			<form  id="form-ajout-photo"   >
+			<form  id="form-ajout-photo">
 
 				<!-- Zone ajout image -->
 				<div class="container">
@@ -106,14 +111,14 @@
 
 						<p>jpg, png : 4mo max</p>
 					</div>
-					<span id="photoErreur" style="display: block;">Veuillez sélectionner une image.</span>
+					
 				</div>
 				<!-- Fin Zone ajout image -->
 				
 				<div class="form-ajout-photo__titre">
 					<label for="titre">Titre</label>
 					<input type="text" name="titre" id="titre" class="champ-saisie">
-					<span id="titreErreur" style="display: none;">Veuillez saisir une valeur correcte, contenant au moins 2 charactères.</span>
+					<!-- <span id="titreErreur" style="display: none;">Veuillez saisir une valeur correcte, contenant au moins 2 charactères.</span> -->
 				</div>
 	
 				<div class="form-ajout-photo__categorie">
@@ -124,12 +129,15 @@
 						<option value="2">Appartements</option>
 						<option value="3">Hotels & restaurants</option>
 					</select>
-					<span id="categorieErreur" style="display: none;">Veuillez saisir une catégorie.</span>
+					<!-- <span id="categorieErreur" style="display: none;">Veuillez saisir une catégorie.</span> -->
 				</div>
 				
 				<hr>
-				<span id="msgErr-ajout-image">Veuillez renseigner les trois champs avant de valider.</span>
-				<input type="submit" value="Valider" id="valider-photo" class="btn btn-modal btn-gris">
+				<span id="msgErr-form-photo" style="display: none;">Veuillez renseigner les trois champs avant de valider.</span>
+				<span id="msgConfirmation-ajout-photo" style="display: none;">Photo ajoutée avec succès</span>
+				<span id="msgErr-ajout-photo"></span>
+				
+				<input type="submit" value="Valider" id="valider-photo" class="btn btn-modal btn-gris" >
 			</form>
 			<div></div>
 			<!--! Fin Formulaire Ajout photo  -->
