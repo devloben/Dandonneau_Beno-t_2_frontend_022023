@@ -1,89 +1,104 @@
-async function retrieveWorks() {
-    const REPONSE = await fetch('http://localhost:5678/api/works')
-    const WORKS = await REPONSE.json()
-    return WORKS
+// ! Récupération des données sur le serveur
+
+async function getProjects() {
+    const RESPONSE = await fetch('http://localhost:5678/api/works')
+    const PROJECTS = await RESPONSE.json()
+    return PROJECTS
 }
 
-function removeWorks() {
-    document.querySelector(".gallery").innerHTML = ""
+// ! Affichage de la Galerie
+
+function removeProjects() {
+    document.querySelector("#gallery").innerHTML = ""
 }
 
-function drawWorks(WORKS) {
+function setProjectsGallery(projects){
+    for (let i = 0; i < projects.length; i++) {
+                
+        const PROJECT = projects[i]
+        const GALLERY = document.getElementById('gallery')
+        const FIGURE = document.createElement('figure')
+        const IMAGE = document.createElement('img')
+        IMAGE.src = PROJECT.imageUrl
+        const TITLE = document.createElement('figcaption')
+        TITLE.innerText = PROJECT.title
 
-    // Affichage de l'ensemble des travaux
-    for (let i = 0; i < WORKS.length; i++) {
-        
-        // Création d'une fiche pour chaque travaux
-        const WORK = WORKS[i]
-
-        // Récupération de l'élément du DOM qui accueillera les fiches
-        const GALERIE = document.querySelector(".gallery")
-
-        // Création d'une balise dédiée à une fiche
-        const WORK_ELEM = document.createElement("figure")
-
-        // Création du contenu des fiches
-        const IMAGE_ELEM = document.createElement("img")
-        IMAGE_ELEM.src = WORK.imageUrl
-       
-        const TITRE_ELEM = document.createElement("figcaption")
-        TITRE_ELEM.innerText = WORK.title
-
-        // Rattachement de la balise "figure" à la class "gallery"
-        GALERIE.appendChild(WORK_ELEM)
-
-        // Rattachement des éléments à la fiche
-        WORK_ELEM.appendChild(IMAGE_ELEM)
-        WORK_ELEM.appendChild(TITRE_ELEM)
+        GALLERY.append(FIGURE)
+        FIGURE.append(IMAGE)
+        FIGURE.append(TITLE)
     }
 }
 
-// Initialisation de l'affichage de la gallery
-removeWorks()
-const WORKS = await retrieveWorks()
-drawWorks(WORKS)
-
+function drawProjects() {
+    getProjects().then((PROJECTS) => {
+        setProjectsGallery(PROJECTS)
+    }) 
+}
+removeProjects()
+drawProjects()
  
-//* Création des filtres
 
-const FILTRE_TOUS = document.querySelector("#tous")
-FILTRE_TOUS.addEventListener("click", function() {
-    removeWorks()
-    const WORKS_FILTRE = WORKS.filter(function(work) {
-        return work.id
+//! FILTRES
+
+function filterTous() {
+    getProjects().then((PROJECTS) => {
+        const BTN_OBJETS = document.querySelector("#tous")
+        BTN_OBJETS.addEventListener("click", function () {
+            removeProjects()
+            const FILTER_PROJECTS = PROJECTS.filter(function(filter) {
+                return filter.id
+            })
+            setProjectsGallery(FILTER_PROJECTS)
+        }) 
     })
-    drawWorks(WORKS_FILTRE)
-})
+}
 
-const FILTRE_OBJETS = document.querySelector("#objets")
-FILTRE_OBJETS.addEventListener("click", function () {
-    removeWorks()
-    const WORKS_FILTRE = WORKS.filter(function (work) {
-        return work.categoryId == 1
+function filterObjet() {
+    getProjects().then((PROJECTS) => {
+        const BTN_OBJETS = document.querySelector("#objets")
+        BTN_OBJETS.addEventListener("click", function () {
+            removeProjects()
+            const FILTER_PROJECTS = PROJECTS.filter(function(filter) {
+                return filter.categoryId == 1
+            })
+            setProjectsGallery(FILTER_PROJECTS)
+        }) 
     })
-    drawWorks(WORKS_FILTRE)
-})
+}
 
-const FILTRE_APPART = document.querySelector("#appartements")
-FILTRE_APPART.addEventListener("click", function () {
-    removeWorks()
-    const WORKS_FILTRE = WORKS.filter(function (work) {
-        return work.categoryId == 2
+function filterAppartements() {
+    getProjects().then((PROJECTS) => {
+        const BTN_OBJETS = document.querySelector("#appartements")
+        BTN_OBJETS.addEventListener("click", function () {
+            removeProjects()
+            const FILTER_PROJECTS = PROJECTS.filter(function(filter) {
+                return filter.categoryId == 2
+            })
+            setProjectsGallery(FILTER_PROJECTS)
+        }) 
     })
-    drawWorks(WORKS_FILTRE)
-})
+}
 
-const FILTRE_HOTEL_RESTO = document.querySelector("#hotels-restaurants");
-FILTRE_HOTEL_RESTO.addEventListener("click", function () {
-    removeWorks()
-    const WORKS_FILTRE = WORKS.filter(function (work) {
-        return work.categoryId == 3
+function filterHotels() {
+    getProjects().then((PROJECTS) => {
+        const BTN_OBJETS = document.querySelector("#hotels-restaurants")
+        BTN_OBJETS.addEventListener("click", function () {
+            removeProjects()
+            const FILTER_PROJECTS = PROJECTS.filter(function(filter) {
+                return filter.categoryId == 3
+            })
+            setProjectsGallery(FILTER_PROJECTS)
+        }) 
     })
-    drawWorks(WORKS_FILTRE)
-})
+}
+
+filterTous()
+filterObjet()
+filterAppartements()
+filterHotels()
 
 
-//* Mise en page utilisateur authentifié
+//! Affichage utilisateur authentifié
 
 function loginBarre() {
     const BODY = document.querySelector('body')
@@ -120,8 +135,8 @@ function liensModifier(position, lien) {
     POSITION.append(LIEN)
 }
 
-
-//* Vérifie si un utilisateur est authentifié et affiche la mise en page correspondante
+//TODO - Revoir le nom du lien Login/LogOut
+//* Authentification utilisateur. Mise en place éléments spécifiques
 
 const LOGIN = document.querySelector('nav ul li:nth-child(3n) a')
 
@@ -141,7 +156,6 @@ function utilisateurAuthentifie () {
         liensModifier('.mes-projets', '#modal1')
     }
 }
-
 utilisateurAuthentifie()
 
 
@@ -158,7 +172,7 @@ function deconnexion() {
 LOGIN.addEventListener('click', deconnexion)
 
 
-// * Boite Modale
+//! Modale
 
 let modal = null
 const OPEN_MODAL = function(e) {
@@ -184,9 +198,8 @@ const CLOSE_MODAL = async function (e) {
     modal.querySelector('.js-modal-close').removeEventListener('click', CLOSE_MODAL)
     modal.querySelector('.js-modal-stop').removeEventListener('click', STOP_PROPAGATION)
     modal = null 
-    removeWorks()
-    let WORKS = await retrieveWorks()
-    drawWorks(WORKS)
+    removeProjects()
+    drawProjects()
 }
  
 const STOP_PROPAGATION = function(e) {
@@ -206,6 +219,14 @@ window.addEventListener('keydown', function(e) {
 
 // * Navigation entre les pages Galerie et Ajout Photo de la Modale
 
+function resetFormNewProject(){
+    formAjoutPhoto.reset()
+        document.getElementById('chosen-image').src = ""
+        let aMasquer = document.querySelector('.a-masquer')
+        aMasquer.style.display = null
+}
+
+//TODO Mettre en anglais les noms de class et les constantes
 const MODAL_GALERIE = document.querySelector('.modal-wrapper__galerie')
 const MODAL_AJOUT_PHOTO = document.querySelector('.modal-wrapper__ajout-photo')
 
@@ -215,6 +236,9 @@ function pageAjoutPhoto() {
         MODAL_GALERIE.style.display = "none"
         MODAL_AJOUT_PHOTO.style.display = null
         btnValiderPhoto.setAttribute('disabled', 'true')
+        resetFormNewProject()
+        const msgConfirmationAjoutPhoto = document.getElementById('msgConfirmation-ajout-photo')
+        msgConfirmationAjoutPhoto.style.display = 'none'
     })
 }
 pageAjoutPhoto()
@@ -228,89 +252,79 @@ function retourGalerie() {
 }
 retourGalerie()
 
-//! Travaux en cours
 
-function removeWorksModal() {
-    document.querySelector(".projet-liste").innerHTML = ""
+//! Affichage des projets dans la modale
+
+function removeProjectsModal() {
+    document.querySelector("#projects-list").innerHTML = ""
 }
 
-async function refreshGalerieModal() {
-    removeWorksModal()
-    let modalWORKS = await retrieveWorks()
-    drawWorksModal(modalWORKS)
+function drawProjectsModal() {
+    getProjects().then((PROJECTS) => {
+        for (let i = 0; i < PROJECTS.length; i++) {
+
+            const PROJECT = PROJECTS[i]
+            const GALLERY = document.querySelector("#projects-list")
+            const FIGURE = document.createElement("figure")
+            const EDIT = document.createElement('p')
+            EDIT.innerText = 'éditer'
+
+            const IMAGE = document.createElement("img")
+            IMAGE.src = PROJECT.imageUrl
+            
+            const MOVE = document.createElement('i')
+            FIGURE.addEventListener('mouseover', () => {
+                MOVE.classList.add('fa-solid', 'fa-arrows-up-down-left-right')
+            })
+            FIGURE.addEventListener('mouseout', () => {
+                MOVE.classList.remove('fa-solid', 'fa-arrows-up-down-left-right')
+            })
+
+            const TRASH = document.createElement('i')
+            TRASH.classList.add('fa-solid', 'fa-trash-can')
+            TRASH.dataset.id = PROJECT.id
+            
+            GALLERY.appendChild(FIGURE)
+            FIGURE.appendChild(IMAGE)
+            FIGURE.append(EDIT)
+            FIGURE.append(MOVE)
+            FIGURE.append(TRASH)
+        }
+    })
+    removeProjectModal()
 }
-
-//* Affichage des travaux dans la modale
-
-function drawWorksModal(WORKS) {
-
-    for (let i = 0; i < WORKS.length; i++) {
+removeProjectsModal()
+drawProjectsModal()
     
-        const WORK = WORKS[i]
 
-        const WORK_LISTE = document.querySelector(".projet-liste")
-        
-        const WORK_ELEM = document.createElement("figure")
-
-        const EDIT = document.createElement('p')
-        EDIT.innerText = 'éditer'
-
-        const IMAGE_ELEM = document.createElement("img")
-        IMAGE_ELEM.src = WORK.imageUrl
-        
-        const ICONE_MOVE = document.createElement('i')
-        
-        WORK_ELEM.addEventListener('mouseover', () => {
-            ICONE_MOVE.classList.add('fa-solid', 'fa-arrows-up-down-left-right')
-        })
-        
-        WORK_ELEM.addEventListener('mouseout', () => {
-            ICONE_MOVE.classList.remove('fa-solid', 'fa-arrows-up-down-left-right')
-        })
-
-        const ICONE_TRASH = document.createElement('i')
-        ICONE_TRASH.classList.add('fa-solid', 'fa-trash-can')
-        ICONE_TRASH.dataset.id = WORK.id
-   
-        WORK_LISTE.appendChild(WORK_ELEM)
-        WORK_ELEM.appendChild(IMAGE_ELEM)
-        WORK_ELEM.append(EDIT)
-        WORK_ELEM.append(ICONE_MOVE)
-        WORK_ELEM.append(ICONE_TRASH)
-    }
-    suppressionWork()
-    
-    }
-    drawWorksModal(WORKS)
-
-
-// * Suppression des travaux dans la modale
+//! Suppression de projets dans la modale
 
 const TOKEN = window.localStorage.getItem('token')
 
-function suppressionWork() {
-    
-    const worksElements = document.querySelectorAll('.projet-liste figure i:nth-child(2n)')
-    const worksElementsEfface = document.querySelectorAll('.projet-liste figure')
-    
-    for (let i = 0; i < worksElements.length; i++) {
-        worksElements[i].addEventListener('click', async function (event) {
-            const id = event.target.dataset.id
-            const reponse = await fetch(`http://localhost:5678/api/works/${id}`, {
+function removeProjectModal() {
+    getProjects().then((PROJECTS) => {
+        const TRASH = document.querySelectorAll('#projects-list figure i:nth-child(2n)')
+
+        for (let i = 0; i < PROJECTS.length; i++) {
+            //TODO expliquer cette fonction
+            TRASH[i].addEventListener('click', async function (event){
+                const id = event.target.dataset.id 
+                await fetch(`http://localhost:5678/api/works/${id}`, {
                 method: "DELETE",
                 headers: {Authorization: `Bearer ${TOKEN}`}
+                })
+            
+                removeProjectsModal()
+                drawProjectsModal() 
             })
-        // worksElementsEfface[i].remove()
-        refreshGalerieModal()
-        })   
-    }
+        }
+    }) 
 }
 
+//! Formulaire de création d'un nouveau projet
 
-//! Fin de travaux en cours
-
-//* Formulaire de chargement de nouvelle photo
-
+//Téléchargement de la photo
+//TODO voir pourquoi de let et pas des const ???
 let uploadButton = document.getElementById("upload-button");
 let chosenImage = document.getElementById("chosen-image");
 let fileName = document.getElementById("file-name");
@@ -325,8 +339,6 @@ uploadButton.onchange = () => {
     aMasquer.style.display = "none"
     fileName.textContent = uploadButton.files[0].name;
 }
-
-// * Tests des champs - Formulaire Ajouter une nouvelle photo
 
 //Test Photo
 let photo = document.getElementById('upload-button')
@@ -351,14 +363,10 @@ titre.addEventListener('input', function() {
 let titreValid = function(saisieTitre) {
     let titreRegex = /[0-9a-zA-Z]{2,}/
     let testTitre = titreRegex.test(saisieTitre.value)
-    // let msgTitre = document.getElementById('titreErreur')
 
     if (testTitre) {
-        // msgTitre.style.display = 'none'
         return true
         } else {
-        // msgTitre.style.display = 'none'
-        // msgTitre.style.color = 'red'
         return false
         }
 }
@@ -370,23 +378,19 @@ categorie.addEventListener('input', function() {
 })
 
 let categorieValid = function(saisieCategorie) {
-    // let msgCategorie = document.getElementById('categorieErreur')
     
     if (saisieCategorie.value != "") {
-        // msgCategorie.style.display = 'none'
         return true
         } else {
-            // msgCategorie.style.display = 'none'
-            // msgCategorie.style.color = 'red'
         return false
         }
 }
 
 // Modif bouton formulaire
+//TODO Mettre les noms en anglais
 const formAjoutPhoto = document.getElementById('form-ajout-photo')
 const btnValiderPhoto = document.getElementById('valider-photo')
 const msgErrFormPhoto = document.getElementById('msgErr-form-photo')
-console.log(formAjoutPhoto)
 
 formAjoutPhoto.addEventListener('input', function() {
 
@@ -404,8 +408,10 @@ formAjoutPhoto.addEventListener('input', function() {
     }
 })
 
+
 // ! Envoi du formulaire Ajout Photo
 
+//TODO Mettre les noms en anglais
 //Gestion des erreurs
 function gestionErreursAjoutPhoto(response) {
     if (!response || response.status > 201) {
@@ -447,24 +453,15 @@ async function envoyerPhoto(e) {
         msgConfirmationAjoutPhoto.style.display = 'block'
         msgConfirmationAjoutPhoto.style.color = '#1D6154'
 
-        refreshGalerieModal()
-        
-        formAjoutPhoto.reset()
-        document.getElementById('chosen-image').src = ""
-        let aMasquer = document.querySelector('.a-masquer')
-        aMasquer.style.display = null
-
-
-        
+        removeProjectsModal()
+        drawProjectsModal() 
+        resetFormNewProject()
 
     } catch(err) {
         affichageErreursAjoutPhoto(err)
         console.log(err)
     }
 }
-
-
-//! Fin de travaux en cours
 
 
 // ! Proposition Fabien
@@ -501,12 +498,3 @@ async function envoyerPhoto(e) {
 //     }
 // }
 // checkFormValidity()
-
-
-
-
-
-
-
-
-

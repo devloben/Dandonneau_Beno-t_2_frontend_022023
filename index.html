@@ -10,7 +10,8 @@
 	<link rel="stylesheet" href="./assets/icons/fontawesome-free-6.2.1-web/css/all.min.css" crossorigin="anonymous">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="./js/main.js" defer></script>
+	
+	
 </head>
 
 <body>
@@ -30,8 +31,9 @@
 <main>
 	<section id="introduction">
 		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
+			<img src="./assets/images/sophie-bluel.png" alt="Sophie Bluel">
 		</figure>
+
 		<article>
 			<h2>Designer d'espace</h2>
 			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
@@ -39,6 +41,7 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+
 	<section id="portfolio">
 		<div class="mes-projets">
 		<h2>Mes Projets</h2>
@@ -51,7 +54,7 @@
 			<li id="hotels-restaurants">Hôtels & Restaurants</li>
 		</ul>
 		
-		<div class="gallery"></div>
+		<div id="gallery"></div>
 
 	</section>
 	
@@ -70,81 +73,82 @@
 	</section>
 </main>
 
-<!-- * Fenêtre Modal -->
+<!--* Modal -->
 
-<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modif-galerie" style="display: none;" >
-	
-	<div class="modal-wrapper js-modal-stop" >
-		<div class="modal-wrapper modal-wrapper__galerie" style="display: null;">
-			<i class="fa-solid fa-xmark fa-2x js-modal-close"></i>
-			<h2 id="modif-galerie">Galerie photo</h2>
-			<div class="projet-liste"></div>
-			<hr>
-			<input type="button" value="Ajouter une photo" id="ajout-photo" class="btn btn-modal btn-vert"><br>
-			<input type="button" value="Supprimer la galerie" id="supprimer-galerie">
-		</div>
-
-		<!-- Page Modal Ajout photo -->
-		<div class="modal-wrapper modal-wrapper__ajout-photo" style="display: none;">
-			<div class="retour-fermer">
-				<i class="fa-solid fa-arrow-left fa-2x"></i>
-				<i class="fa-solid fa-xmark fa-2x js-modal-close"></i>
-			</div>
-			<h2 id="modif-galerie">Ajout photo</h2>
-
-			<!--! Formulaire Ajout photo  -->
-			<form  id="form-ajout-photo">
-
-				<!-- Zone ajout image -->
-				<div class="container">
-					<figure class="image-container">
-						<img id="chosen-image">
-						<figcaption id="file-name" style = "display: none;"></figcaption>
-					</figure>
-					
-					<div class="a-masquer" style="display: null;">
-						<i class="fa-solid fa-image fa-3x"></i>
-						<input type="file" id="upload-button"  name="image" accept="image/*">
-						<label for="upload-button" class="btn btn-ajout-photo">
-							<i class="fa-solid fa-plus"></i> &nbsp; Ajouter photo
-						</label>
-
-						<p>jpg, png : 4mo max</p>
-					</div>
-					
-				</div>
-				<!-- Fin Zone ajout image -->
-				
-				<div class="form-ajout-photo__titre">
-					<label for="titre">Titre</label>
-					<input type="text" name="titre" id="titre" class="champ-saisie">
-					<!-- <span id="titreErreur" style="display: none;">Veuillez saisir une valeur correcte, contenant au moins 2 charactères.</span> -->
-				</div>
-	
-				<div class="form-ajout-photo__categorie">
-					<label for="pet-select">Catégorie</label>
-					<select name="categorie" id="categorie-select" class="champ-saisie">
-						<option value=""></option>
-						<option value="1">Objets</option>
-						<option value="2">Appartements</option>
-						<option value="3">Hotels & restaurants</option>
-					</select>
-					<!-- <span id="categorieErreur" style="display: none;">Veuillez saisir une catégorie.</span> -->
-				</div>
-				
-				<hr>
-				<span id="msgErr-form-photo" style="display: none;">Veuillez renseigner les trois champs avant de valider.</span>
-				<span id="msgConfirmation-ajout-photo" style="display: none;">Photo ajoutée avec succès</span>
-				<span id="msgErr-ajout-photo"></span>
-				
-				<input type="submit" value="Valider" id="valider-photo" class="btn btn-modal btn-gris" >
-			</form>
-			<div></div>
-			<!--! Fin Formulaire Ajout photo  -->
-		</div>
-	</div>
+	<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modif-galerie" style="display: none;" >
 		
-</aside>
+		<div class="modal-wrapper js-modal-stop" >
+
+			<!-- Gallery -->
+			<div class="modal-wrapper modal-wrapper__galerie" style="display: null;">
+				<i class="fa-solid fa-xmark fa-2x js-modal-close"></i>
+				<h2 id="modif-galerie">Galerie photo</h2>
+				<div id="projects-list"></div>
+				<hr>
+
+				<input type="button" value="Ajouter une photo" id="ajout-photo" class="btn btn-modal btn-vert"><br>
+
+				<input type="button" value="Supprimer la galerie" id="supprimer-galerie">
+			</div>
+
+			<!-- New photo -->
+			<div class="modal-wrapper modal-wrapper__ajout-photo" style="display: none;">
+				<div class="retour-fermer">
+					<i class="fa-solid fa-arrow-left fa-2x"></i>
+					<i class="fa-solid fa-xmark fa-2x js-modal-close"></i>
+				</div>
+
+				<h2 id="modif-galerie">Ajout photo</h2>
+
+				<form  id="form-ajout-photo">
+
+					<!-- Upload photo -->
+					<div class="container">
+						<figure class="image-container">
+							<img id="chosen-image">
+							<figcaption id="file-name" style = "display: none;"></figcaption>
+						</figure>
+						
+						<div class="a-masquer" style="display: null;">
+							<i class="fa-solid fa-image fa-3x"></i>
+							<input type="file" id="upload-button"  name="image" accept="image/*">
+							<label for="upload-button" class="btn btn-ajout-photo">
+								<i class="fa-solid fa-plus"></i> &nbsp; Ajouter photo
+							</label>
+
+							<p>jpg, png : 4mo max</p>
+						</div>
+					</div>
+					<!-- Upload photo END -->
+			
+					<div class="form-ajout-photo__titre">
+						<label for="titre">Titre</label>
+						<input type="text" name="titre" id="titre" class="champ-saisie">
+					</div>
+		
+					<div class="form-ajout-photo__categorie">
+						<label for="pet-select">Catégorie</label>
+						<select name="categorie" id="categorie-select" class="champ-saisie">
+							<option value=""></option>
+							<option value="1">Objets</option>
+							<option value="2">Appartements</option>
+							<option value="3">Hotels & restaurants</option>
+						</select>
+					</div>
+					<hr>
+
+					<span id="msgErr-form-photo" style="display: none;">Veuillez renseigner les trois champs avant de valider.</span>
+					<span id="msgConfirmation-ajout-photo" style="display: none;">Photo ajoutée avec succès</span>
+					<span id="msgErr-ajout-photo"></span>
+					
+					<input type="submit" value="Valider" id="valider-photo" class="btn btn-modal btn-gris" >
+				</form>
+				<div></div>
+				<!--! Fin Formulaire Ajout photo  -->
+			</div>
+		</div>
+			
+	</aside>
 
 <footer>
 	<nav>
@@ -154,6 +158,8 @@
 	</nav>
 </footer>
 
-	
+	<!-- Script -->
+	<script type="module" src="./js/main.js"></script>
+	<!-- Script -->
 </body>
 </html>
