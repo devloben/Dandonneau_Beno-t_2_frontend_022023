@@ -1,12 +1,29 @@
 // ! Récupération des données sur le serveur
 
-async function getProjects() {
-    const RESPONSE = await fetch('http://localhost:5678/api/works')
-    const PROJECTS = await RESPONSE.json()
-    return PROJECTS
+const URL = 'http://localhost:5678/api/works'
+
+//!New
+// const getData = async (URL) => {
+//     try {
+//         const response = await fetch(URL)
+//         if(!response.ok) {
+//             throw new Error(`Network response was not ok (${response.status})`)
+//         }
+//         const projects = await response.json()
+//         return projects
+//     } catch (error) {
+//         console.error('Error fetching data:', error)
+//     }
+// }
+
+//!Old
+async function getData() {
+    const response = await fetch(URL)
+    const projects = await response.json()
+    return projects
 }
 
-// ! Affichage de la Galerie
+//* Affichage de la Galerie
 
 function removeProjects() {
     document.querySelector("#gallery").innerHTML = ""
@@ -15,23 +32,34 @@ function removeProjects() {
 function setProjectsGallery(projects){
     for (let i = 0; i < projects.length; i++) {
                 
-        const PROJECT = projects[i]
-        const GALLERY = document.getElementById('gallery')
-        const FIGURE = document.createElement('figure')
-        const IMAGE = document.createElement('img')
-        IMAGE.src = PROJECT.imageUrl
-        const TITLE = document.createElement('figcaption')
-        TITLE.innerText = PROJECT.title
+        const project = projects[i]
+        const gallery = document.getElementById('gallery')
+        const figure = document.createElement('figure')
+        const image = document.createElement('img')
+        image.src = project.imageUrl
+        const title = document.createElement('figcaption')
+        title.innerText = project.title
 
-        GALLERY.append(FIGURE)
-        FIGURE.append(IMAGE)
-        FIGURE.append(TITLE)
+        gallery.append(figure)
+        figure.append(image)
+        figure.append(title)
     }
 }
+//!New 
+//const drawProject = async () => {
+//     try {
+//       const projects = await getData(url);
+//       setProjectsGallery(projects)
+//       console.log(projects);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
 
+//!Old
 function drawProjects() {
-    getProjects().then((PROJECTS) => {
-        setProjectsGallery(PROJECTS)
+    getData().then((projects) => {
+        setProjectsGallery(projects)
     }) 
 }
 removeProjects()
@@ -41,7 +69,7 @@ drawProjects()
 //! FILTRES
 
 function filterTous() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         const BTN_OBJETS = document.querySelector("#tous")
         BTN_OBJETS.addEventListener("click", function () {
             removeProjects()
@@ -54,7 +82,7 @@ function filterTous() {
 }
 
 function filterObjet() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         const BTN_OBJETS = document.querySelector("#objets")
         BTN_OBJETS.addEventListener("click", function () {
             removeProjects()
@@ -67,7 +95,7 @@ function filterObjet() {
 }
 
 function filterAppartements() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         const BTN_OBJETS = document.querySelector("#appartements")
         BTN_OBJETS.addEventListener("click", function () {
             removeProjects()
@@ -80,7 +108,7 @@ function filterAppartements() {
 }
 
 function filterHotels() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         const BTN_OBJETS = document.querySelector("#hotels-restaurants")
         BTN_OBJETS.addEventListener("click", function () {
             removeProjects()
@@ -125,7 +153,7 @@ function loginBarre() {
     LOGIN_BARRE.append(PUBLIER)
 }
 
-function liensModifier(position, lien) {
+function linkEdit(position, lien) {
     const POSITION = document.querySelector(position)
     const LIEN = document.createElement('a')
     LIEN.setAttribute('href', lien)
@@ -135,41 +163,42 @@ function liensModifier(position, lien) {
     POSITION.append(LIEN)
 }
 
-//TODO - Revoir le nom du lien Login/LogOut
-//* Authentification utilisateur. Mise en place éléments spécifiques
 
-const LOGIN = document.querySelector('nav ul li:nth-child(3n) a')
+//* Utilisateur authetifié. Mise en place éléments de modification.
 
-function utilisateurAuthentifie () {
+const LOG_INOUT = document.querySelector('nav ul li:nth-child(3n) a')
+
+function userAuthentify () {
 
     if (localStorage.getItem('userId') && localStorage.getItem('token')) {
 
         loginBarre()
         
-        LOGIN.innerText = 'logout'
-        LOGIN.setAttribute('href', '#')
+        LOG_INOUT.innerText = 'logout'
+        LOG_INOUT.setAttribute('href', '#')
 
-        const FILTRES = document.querySelector('#portfolio ul')
-        FILTRES.style.display = 'none'
+        const FILTERS = document.querySelector('#portfolio ul')
+        FILTERS.style.display = 'none'
 
-        liensModifier('#introduction figure', '#')
-        liensModifier('.mes-projets', '#modal1')
+        linkEdit('#introduction figure', '#')
+        linkEdit('.mes-projets', '#modal1')
     }
 }
-utilisateurAuthentifie()
+userAuthentify()
 
 
 //* Déconnexion
 
 function deconnexion() {
-    LOGIN.innerText = 'login'
+    LOG_INOUT.innerText = 'login'
     
     localStorage.removeItem('userId')
     localStorage.removeItem('token')
 
     window.location.href = 'login.html'
 }
-LOGIN.addEventListener('click', deconnexion)
+
+LOG_INOUT.addEventListener('click', deconnexion)
 
 
 //! Modale
@@ -184,8 +213,8 @@ const OPEN_MODAL = function(e) {
     modal.addEventListener('click', CLOSE_MODAL)
     modal.querySelectorAll('.js-modal-close').forEach(e => {e.addEventListener('click', CLOSE_MODAL)})
     modal.querySelector('.js-modal-stop').addEventListener('click', STOP_PROPAGATION)
-    MODAL_GALERIE.style.display = null
-    MODAL_AJOUT_PHOTO.style.display = 'none'
+    MODAL_GALLERY.style.display = null
+    MODAL_NEW_PROJECT.style.display = 'none'
 }
 
 const CLOSE_MODAL = async function (e) {
@@ -220,25 +249,30 @@ window.addEventListener('keydown', function(e) {
 // * Navigation entre les pages Galerie et Ajout Photo de la Modale
 
 function resetFormNewProject(){
-    formAjoutPhoto.reset()
+    FORM_NEW_PROJECT.reset()
         document.getElementById('chosen-image').src = ""
         let aMasquer = document.querySelector('.a-masquer')
         aMasquer.style.display = null
 }
 
 //TODO Mettre en anglais les noms de class et les constantes
-const MODAL_GALERIE = document.querySelector('.modal-wrapper__galerie')
-const MODAL_AJOUT_PHOTO = document.querySelector('.modal-wrapper__ajout-photo')
+const MODAL_GALLERY = document.querySelector('.modal-wrapper__gallery')
+const MODAL_NEW_PROJECT = document.querySelector('.modal-wrapper__new-project')
 
 function pageAjoutPhoto() {
-    const BTN_AJOUTER_PHOTO = document.querySelector('#ajout-photo')
-    BTN_AJOUTER_PHOTO.addEventListener('click', function() {
-        MODAL_GALERIE.style.display = "none"
-        MODAL_AJOUT_PHOTO.style.display = null
-        btnValiderPhoto.setAttribute('disabled', 'true')
+    const BTN_UPLOAD_PHOTO = document.querySelector('#upload-photo')
+    BTN_UPLOAD_PHOTO.addEventListener('click', function() {
+        MODAL_GALLERY.style.display = "none"
+        MODAL_NEW_PROJECT.style.display = null
+        BTN_UPLOAD_PROJECT.setAttribute('disabled', 'true')
         resetFormNewProject()
+
         const msgConfirmationAjoutPhoto = document.getElementById('msgConfirmation-ajout-photo')
         msgConfirmationAjoutPhoto.style.display = 'none'
+
+        let err_elem = document.getElementById('msg-err-serveur')
+        err_elem.innerText = ""
+        MSG_ERR_NEW_PROJECT.style.display = 'none'
     })
 }
 pageAjoutPhoto()
@@ -246,8 +280,8 @@ pageAjoutPhoto()
 function retourGalerie() {
     const FLECHE_RETOUR = document.querySelector('.fa-arrow-left')
     FLECHE_RETOUR.addEventListener('click', function() {
-        MODAL_GALERIE.style.display = null
-        MODAL_AJOUT_PHOTO.style.display = 'none'
+        MODAL_GALLERY.style.display = null
+        MODAL_NEW_PROJECT.style.display = 'none'
     })
 }
 retourGalerie()
@@ -260,7 +294,7 @@ function removeProjectsModal() {
 }
 
 function drawProjectsModal() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         for (let i = 0; i < PROJECTS.length; i++) {
 
             const PROJECT = PROJECTS[i]
@@ -302,7 +336,7 @@ drawProjectsModal()
 const TOKEN = window.localStorage.getItem('token')
 
 function removeProjectModal() {
-    getProjects().then((PROJECTS) => {
+    getData().then((PROJECTS) => {
         const TRASH = document.querySelectorAll('#projects-list figure i:nth-child(2n)')
 
         for (let i = 0; i < PROJECTS.length; i++) {
@@ -388,23 +422,22 @@ let categorieValid = function(saisieCategorie) {
 
 // Modif bouton formulaire
 //TODO Mettre les noms en anglais
-const formAjoutPhoto = document.getElementById('form-ajout-photo')
-const btnValiderPhoto = document.getElementById('valider-photo')
-const msgErrFormPhoto = document.getElementById('msgErr-form-photo')
+const FORM_NEW_PROJECT = document.getElementById('form-new-projet')
+const BTN_UPLOAD_PROJECT = document.getElementById('upload-project')
+const MSG_ERR_NEW_PROJECT = document.getElementById('msg-err-new-project')
 
-formAjoutPhoto.addEventListener('input', function() {
+FORM_NEW_PROJECT.addEventListener('input', function() {
 
     if (titreValid(titre) && categorieValid(categorie) && photoValid(photo)) {
-        btnValiderPhoto.classList.add('valider-photo-ok')
-        btnValiderPhoto.removeAttribute('disabled')
-        msgErrFormPhoto.style.display = 'none'
+        BTN_UPLOAD_PROJECT.classList.add('valider-photo-ok')
+        BTN_UPLOAD_PROJECT.removeAttribute('disabled')
+        MSG_ERR_NEW_PROJECT.style.display = 'none'
 
-        formAjoutPhoto.addEventListener('submit', envoyerPhoto)
+        FORM_NEW_PROJECT.addEventListener('submit', envoyerPhoto)
     } else {
-        
-        msgErrFormPhoto.style.display = 'block'
-        msgErrFormPhoto.style.color = 'red'
-        btnValiderPhoto.classList.remove('valider-photo-ok')
+        MSG_ERR_NEW_PROJECT.style.display = 'block'
+        MSG_ERR_NEW_PROJECT.style.color = 'red'
+        BTN_UPLOAD_PROJECT.classList.remove('valider-photo-ok')
     }
 })
 
@@ -421,7 +454,7 @@ function gestionErreursAjoutPhoto(response) {
 
 function affichageErreursAjoutPhoto(err) {
     let msg = err.message
-    let err_elem = document.getElementById('msgErr-ajout-photo')
+    let err_elem = document.getElementById('msg-err-serveur')
     err_elem.innerText = msg
     err_elem.style.color = 'red'
 }

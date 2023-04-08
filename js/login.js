@@ -2,7 +2,7 @@ function gestionErreurs(response) {
     if (!response || response.status === 500) {
         throw new Error('Le serveur ne répond pas, réessayez ultérieurement.')
     } else if (response.status > 200 && response.status <= 404) {
-        throw new Error('Couple login mot de passe incorrect')
+        throw new Error('Couple "login - mot de passe" incorrect')
     }
 }
 

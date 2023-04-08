@@ -426,14 +426,14 @@ footer {
 
 /* !Fin Ajout photo */
 
-#form-ajout-photo {
+#form-new-projet {
 	width: 70%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
-#form-ajout-photo hr {
+#form-new-projet hr {
 	margin-top: 50px;
 	width: 100%;
 }
