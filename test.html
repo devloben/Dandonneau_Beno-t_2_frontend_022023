@@ -1,0 +1,34 @@
+// ! Proposition Fabien
+// // vérifie que les champs sont valides.
+// // si tout est bon, le bouton devient cliquable
+// // s'il y a une erreur, alors le bouton n'est pas cliquable et un texte explique d'erreur en dessous du champ concerné
+// function checkFormValidity() {
+//     let titre = document.getElementById("titre")
+//     let titreRegex = /[0-9a-zA-Z]{2,}/
+//     let titleIsValid = false
+    
+//     titre.addEventListener('input', (e) => {
+//         let val = e.target.value
+//         titleIsValid = titreRegex.test(val)
+
+//         // afficher un message d'erreur si jamais le isValid === false
+//         let titreErreur = document.getElementById('titreErreur')
+//         if (titleIsValid === false) {
+//             titreErreur.style.display = 'block'
+//         } else {
+//             titreErreur.style.display = 'none'
+//         }
+//     })
+    
+
+//     // faire les autres vérifications
+    
+//     if (titleIsValid && fileIsValid && categoryIsValid) {
+//         // rendre le bouton cliquable
+//         // recupérer les valeurs des champs (normalement directement récupérable avec titre.value, file.value et category.value)
+//         // envoyer la requete a l'API lorsqu'on clique dessus
+//     } else {
+//         // le bouton doit rester inactif
+//     }
+// }
+// checkFormValidity()

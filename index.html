@@ -49,11 +49,10 @@
 			<li id="tous">Tous</li>
 			<li id="objets">Objets</li>
 			<li id="appartements">Appartements</li>
-			<li id="hotels-restaurants">Hôtels & Restaurants</li>
+			<li id="hotels">Hôtels & Restaurants</li>
 		</ul>
 		
 		<div id="gallery"></div>
-
 	</section>
 	
 	<section id="contact">
@@ -92,15 +91,14 @@
 
 			<!-- New photo -->
 			<div class="modal-wrapper modal-wrapper__new-project" style="display: none;">
-				<div class="retour-fermer">
+				<div class="return-close">
 					<i class="fa-solid fa-arrow-left fa-2x"></i>
 					<i class="fa-solid fa-xmark fa-2x js-modal-close"></i>
 				</div>
 
-				<h2 id="modif-galerie">Ajout photo</h2>
+				<h2>Ajout photo</h2>
 
-				<form  id="form-new-projet">
-
+				<form  id="form-new-project">
 					<!-- Upload photo -->
 					<div class="container">
 						<figure class="image-container">
@@ -108,7 +106,7 @@
 							<figcaption id="file-name" style = "display: none;"></figcaption>
 						</figure>
 						
-						<div class="a-masquer" style="display: null;">
+						<div class="upload-area" style="display: null;">
 							<i class="fa-solid fa-image fa-3x"></i>
 							<input type="file" id="upload-button"  name="image" accept="image/*">
 							<label for="upload-button" class="btn btn-ajout-photo">
@@ -120,14 +118,14 @@
 					</div>
 					<!-- Upload photo END -->
 			
-					<div class="form-ajout-photo__titre">
-						<label for="titre">Titre</label>
-						<input type="text" name="titre" id="titre" class="champ-saisie">
+					<div class="form-new-project__title">
+						<label for="title">Titre</label>
+						<input type="text" name="title" id="title" class="champ-saisie">
 					</div>
 		
-					<div class="form-ajout-photo__categorie">
-						<label for="pet-select">Catégorie</label>
-						<select name="categorie" id="categorie-select" class="champ-saisie">
+					<div class="form-new-project__category">
+						<label for="category">Catégorie</label>
+						<select name="category" id="category" class="champ-saisie">
 							<option value=""></option>
 							<option value="1">Objets</option>
 							<option value="2">Appartements</option>
@@ -138,7 +136,7 @@
 					<hr>
 
 					<span id="msg-err-new-project" style="display: none;">Veuillez renseigner les trois champs avant de valider.</span>
-					<span id="msgConfirmation-ajout-photo" style="display: none;">Le nouveau projet a été ajoutée avec succès</span>
+					<span id="msg-confirm-new-project" style="display: none;">Nouveau projet ajouté avec succès</span>
 					<span id="msg-err-serveur"></span>
 					
 					<input type="submit" value="Valider" id="upload-project" class="btn btn-modal btn-gris" >

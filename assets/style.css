@@ -240,8 +240,8 @@ footer {
 
 
 #contact label, 
-.form-ajout-photo__titre label, 
-.form-ajout-photo__categorie label {
+.form-new-project__title label, 
+.form-new-project__category label {
 	margin: 2em 0 1em 0;
 	
 }
@@ -315,10 +315,10 @@ footer {
 	height: 100px;
 }
 
-.valider-photo-ok {
+.form-new-project-valid {
 	background-color: #1D6154;
 }
-.valider-photo-ok:hover {
+.form-new-project-valid:hover {
 	background-color: #0E2F28;
 }
 
@@ -362,8 +362,8 @@ footer {
 .login-form__password, 
 .login-form__submit, 
 .form-ajout-photo__photo,
-.form-ajout-photo__titre, 
-.form-ajout-photo__categorie {
+.form-new-project__title, 
+.form-new-project__category {
 	display: flex;
 	flex-direction: column;
 }
@@ -397,7 +397,7 @@ footer {
 	font-size: 0.8em;
 }
 
-.a-masquer {
+.upload-area {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -415,10 +415,10 @@ footer {
 
 
 
-.form-ajout-photo__titre input {
+.form-new-project__title input {
 	padding-left: 15px;
 }
-.form-ajout-photo__categorie select {
+.form-new-project__category select {
 	padding-left: 10px;
 }
 
@@ -426,14 +426,14 @@ footer {
 
 /* !Fin Ajout photo */
 
-#form-new-projet {
+#form-new-project {
 	width: 70%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
-#form-new-projet hr {
+#form-new-project hr {
 	margin-top: 50px;
 	width: 100%;
 }
@@ -472,7 +472,7 @@ footer nav ul li {
 	margin-top: 100px;
 }
 
-.login-barre {
+.blackbar {
 	background-color: black;
 	height: 60px;
 	position: fixed;
@@ -486,23 +486,12 @@ footer nav ul li {
 	color: white;
 }
 
-.login-barre__publier {
+.blackbar__publier {
 	display: block;
 	background-color: white;
 	color: black;
 	padding: 10px;
 	border-radius: 25px;
-	cursor: pointer;
-}
-
-.login-barre__edition {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 5px;
-	background-color: black;
-	border: 0;
-	color: white;
 	cursor: pointer;
 }
 
@@ -557,7 +546,7 @@ footer nav ul li {
 	align-self: flex-end;
 }
 
-.retour-fermer {
+.return-close {
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
