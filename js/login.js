@@ -36,17 +36,11 @@ loginForm.addEventListener("submit", login)
             const id = jsonResponse.userId
             const token = jsonResponse.token
 
-            // Envoi du login sur le Local Storage
             window.localStorage.setItem("userId", id)
             window.localStorage.setItem("token", token)
 
-            // Redirection page d'accueil
             window.location.href = "../index.html"
     } catch(error) {
         displayError(error)
-        console.log(error)
         }
 }
-
-// email: sophie.bluel@test.tld
-// password: S0phie

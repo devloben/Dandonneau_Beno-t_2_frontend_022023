@@ -1,19 +1,19 @@
-//Affichage site public
+// Affichage site public
 // Récupération des données
-const URL = "http://localhost:5678/api/works"
+const url = "http://localhost:5678/api/works"
 async function retrieveProjects() {
     try {
-        const response = await fetch(URL)
+        const response = await fetch(url)
         if(!response.ok) {
             throw new Error(`Le serveur ne répond pas, réessayez ultérieurement : (${response.status})`)
         }
         const projects = await response.json()
+        console.log(projects)
         return projects
     } catch (error) {
-        console.error("Nous rencontrons un problème pour récupérer les données:", error)
+        console.error(error)
     }
 }
-
 
 // Affichage de la Galerie
 function removeProjects() {
@@ -35,12 +35,12 @@ function setGallery(projects){
         figure.append(title)
     }
 }
+
 async function drawProjects() {
     const projects = await retrieveProjects();
     setGallery(projects)
 }
 
- 
 // Filtres
 async function filterTous() {
     const projects = await retrieveProjects()
@@ -97,13 +97,12 @@ function blackBar() {
 function linkEdit(position, link) {
     const linkPosition = document.querySelector(position)
     const linkTarget = document.createElement("a")
+    linkTarget.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
     linkTarget.setAttribute("href", link)
     linkTarget.classList.add("js-modal")
-    linkTarget.innerHTML = '<i class="fa-solid fa-pen-to-square fa-lg"></i> Modifier'
 
     linkPosition.append(linkTarget)
 }
-
 
 // Affichage des éléments de modification.
 const logInOut = document.querySelector("nav ul li:nth-child(3n) a")
@@ -123,7 +122,6 @@ function userAuthentify () {
         linkEdit(".mes-projets", "#modal1")
     }
 }
-
 userAuthentify()
 
 // Déconnexion
@@ -221,7 +219,6 @@ function retourGalerie() {
     })
 }
 
-
 // Affichage des projets dans la modale
 function removeProjectsModal() {
     document.querySelector("#projects-list").innerHTML = ""
@@ -262,7 +259,6 @@ function drawProjectsModal() {
     removeProjectModal()
 }
 
-
 // Suppression de projets dans la modale
 const token = window.localStorage.getItem("token")
 
@@ -271,7 +267,6 @@ function removeProjectModal() {
         const trash = document.querySelectorAll("#projects-list figure i:nth-child(2n)")
 
         for (let i = 0; i < projects.length; i++) {
-            //TODO expliquer cette fonction
             trash[i].addEventListener("click", async function (event){
                 const id = event.target.dataset.id 
                 await fetch(`http://localhost:5678/api/works/${id}`, {
@@ -286,9 +281,9 @@ function removeProjectModal() {
     }) 
 }
 
+
 // Formulaire de création d'un nouveau projet
-//Téléchargement de la photo
-//TODO voir pourquoi de lets et pas des const ???
+// Téléchargement de la photo
 let uploadButton = document.getElementById("upload-button");
 let chosenImage = document.getElementById("chosen-image");
 let fileName = document.getElementById("file-name");
@@ -305,7 +300,7 @@ uploadButton.onchange = () => {
     fileName.textContent = uploadButton.files[0].name;
 }
 
-//Test Photo
+// Test Photo
 let photo = document.getElementById("upload-button")
 photo.addEventListener("input", function() {
     photoValid(this)
@@ -321,7 +316,7 @@ let photoValid = function(saisiePhoto) {
         }
 }
 
-//Test Titre
+// Test Titre
 let title = document.getElementById("title")
 title.addEventListener("input", function() {
     titleValid(this)
@@ -340,7 +335,7 @@ let titleValid = function(entryTitle) {
         }
 }
 
-//Test Catégorie
+// Test Catégorie
 let category = document.getElementById("category")
 category.addEventListener("input", function() {
     categoryValid(this)
@@ -377,8 +372,9 @@ formNewProject.addEventListener("input", function() {
     }
 })
 
+
 // Envoi du formulaire Ajout Photo
-//Gestion des erreurs
+// Gestion des erreurs
 function checkError(response) {
     if (!response || response.status > 201) {
         throw new Error("Le serveur ne répond pas, réessayez ultérieurement.")
@@ -392,7 +388,7 @@ function displayError(error) {
     error_elem.style.color = "red"
 }
 
-//Ajout nouveau projet - Validation et envoi du formulaire.
+// Ajout nouveau projet - Validation et envoi du formulaire.
 async function postNewProject(e) {
     e.preventDefault()
 
@@ -432,25 +428,18 @@ async function postNewProject(e) {
 removeProjects()
 drawProjects()
 
-//Filtres
+// Filtres
 filterTous()
 filter("objets",1)
 filter("appartements",2)
 filter("hotels",3)
 
-
 // Affichage de la Galerie dans la Modale
 drawProjectsModal()
 removeProjectsModal()
 
-//Affichage du formulaire d'ajout d'un nouveau projet
+// Affichage du formulaire d'ajout d'un nouveau projet
 displayFormNewProject()
 
-// Retour à la gGalerie de la Modale
+// Retour à la Galerie de la Modale
 retourGalerie()
-
-
-
-
-
-
