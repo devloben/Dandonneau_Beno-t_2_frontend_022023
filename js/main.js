@@ -14,6 +14,7 @@ async function retrieveProjects() {
     }
 }
 
+
 // Affichage de la Galerie
 function removeProjects() {
     document.querySelector("#gallery").innerHTML = ""
@@ -38,8 +39,7 @@ async function drawProjects() {
     const projects = await retrieveProjects();
     setGallery(projects)
 }
-removeProjects()
-drawProjects()
+
  
 // Filtres
 async function filterTous() {
@@ -65,14 +65,11 @@ async function filter(elementId, categoryId) {
         setGallery(filter)
     }) 
 }
-filterTous()
-filter("objets",1)
-filter("appartements",2)
-filter("hotels",3)
+
 
 // Utilisateur Authentifié
-// Création des éléments de modification.
-function loginBarre() {
+// Création des éléments de modification
+function blackBar() {
     const body = document.querySelector("body")
 
     const blackBar = document.createElement("div")
@@ -107,13 +104,14 @@ function linkEdit(position, link) {
     linkPosition.append(linkTarget)
 }
 
+
 // Affichage des éléments de modification.
 const logInOut = document.querySelector("nav ul li:nth-child(3n) a")
 
 function userAuthentify () {
     if (localStorage.getItem("userId") && localStorage.getItem("token")) {
         
-        loginBarre()
+        blackBar()
 
         logInOut.innerText = "logout"
         logInOut.setAttribute("href", "#")
@@ -125,6 +123,7 @@ function userAuthentify () {
         linkEdit(".mes-projets", "#modal1")
     }
 }
+
 userAuthentify()
 
 // Déconnexion
@@ -137,6 +136,7 @@ function deconnexion() {
     window.location.href = "login.html"
 }
 logInOut.addEventListener("click", deconnexion)
+
 
 // Modale
 let modal = null
@@ -166,7 +166,7 @@ const closeModal = async function (e) {
     removeProjects()
     drawProjects()
 }
- 
+
 const stopPropagation = function(e) {
     e.stopPropagation()
 }
@@ -188,11 +188,12 @@ const msgConfirmNewProject = document.getElementById("msg-confirm-new-project")
 
 function resetFormNewProject(){
     formNewProject.reset()
-        document.getElementById("chosen-image").src = ""
-        let uploadArea = document.querySelector(".upload-area")
-        uploadArea.style.display = null
-        btnUploadProject.classList.remove("form-new-project-valid")
-        btnUploadProject.setAttribute("disabled", "true")       
+    const chosenImage = document.getElementById("chosen-image")
+    chosenImage.removeAttribute("src")
+    let uploadArea = document.querySelector(".upload-area")
+    uploadArea.style.display = null
+    btnUploadProject.classList.remove("form-new-project-valid")
+    btnUploadProject.setAttribute("disabled", "true")       
 }
 
 function displayFormNewProject() {
@@ -211,7 +212,6 @@ function displayFormNewProject() {
         msgErrorNewProject.style.display = "none"
     })
 }
-displayFormNewProject()
 
 function retourGalerie() {
     const arrowBack = document.querySelector(".fa-arrow-left")
@@ -220,7 +220,7 @@ function retourGalerie() {
         modalNewProject.style.display = "none"
     })
 }
-retourGalerie()
+
 
 // Affichage des projets dans la modale
 function removeProjectsModal() {
@@ -261,9 +261,7 @@ function drawProjectsModal() {
     })
     removeProjectModal()
 }
-removeProjectsModal()
-drawProjectsModal()
-    
+
 
 // Suppression de projets dans la modale
 const token = window.localStorage.getItem("token")
@@ -290,7 +288,7 @@ function removeProjectModal() {
 
 // Formulaire de création d'un nouveau projet
 //Téléchargement de la photo
-//TODO voir pourquoi de let et pas des const ???
+//TODO voir pourquoi de lets et pas des const ???
 let uploadButton = document.getElementById("upload-button");
 let chosenImage = document.getElementById("chosen-image");
 let fileName = document.getElementById("file-name");
@@ -303,6 +301,7 @@ uploadButton.onchange = () => {
     }
     let uploadArea = document.querySelector(".upload-area")
     uploadArea.style.display = "none"
+    chosenImage.style.display = "block"
     fileName.textContent = uploadButton.files[0].name;
 }
 
@@ -318,7 +317,7 @@ let photoValid = function(saisiePhoto) {
         msgConfirmNewProject.style.display = "none"
         return true
         } else {
-        return false
+            return false
         }
 }
 
@@ -333,9 +332,11 @@ let titleValid = function(entryTitle) {
 
     if (testTitle) {
         msgConfirmNewProject.style.display = "none"
+        
         return true
         } else {
-        return false
+            msgConfirmNewProject.style.display = "none"
+            return false
         }
 }
 
@@ -344,14 +345,14 @@ let category = document.getElementById("category")
 category.addEventListener("input", function() {
     categoryValid(this)
 })
-
 let categoryValid = function(entryCategory) {
+    
     
     if (entryCategory.value != "") {
         msgConfirmNewProject.style.display = "none"
         return true
         } else {
-        return false
+            return false
         }
 }
 
@@ -369,6 +370,7 @@ formNewProject.addEventListener("input", function() {
 
         formNewProject.addEventListener("submit", postNewProject)
     } else {
+        btnUploadProject.setAttribute("disabled", "true")
         msgErrorNewProject.style.display = "block"
         msgErrorNewProject.style.color = "red"
         btnUploadProject.classList.remove("form-new-project-valid")
@@ -414,6 +416,7 @@ async function postNewProject(e) {
         
         msgConfirmNewProject.style.display = "block"
         msgConfirmNewProject.style.color = "#1D6154"
+        chosenImage.style.display = "none"
 
         removeProjectsModal()
         drawProjectsModal() 
@@ -424,3 +427,30 @@ async function postNewProject(e) {
         console.log(err)
     }
 }
+
+// Affichage de la Galerie
+removeProjects()
+drawProjects()
+
+//Filtres
+filterTous()
+filter("objets",1)
+filter("appartements",2)
+filter("hotels",3)
+
+
+// Affichage de la Galerie dans la Modale
+drawProjectsModal()
+removeProjectsModal()
+
+//Affichage du formulaire d'ajout d'un nouveau projet
+displayFormNewProject()
+
+// Retour à la gGalerie de la Modale
+retourGalerie()
+
+
+
+
+
+
