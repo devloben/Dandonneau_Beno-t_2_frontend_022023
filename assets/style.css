@@ -48,7 +48,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-/** end reset css**/
+/* end reset css */
 
 html {
 	background-color: #F5F5F5;
@@ -214,8 +214,7 @@ footer {
 	width: 100%;
 }
 
-/** Formulaire Contact */
-
+/* Formulaire Contact */
 #contact {
 	width: 40%;
 	margin: auto;
@@ -251,7 +250,7 @@ footer {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-/** Boutons et champs de saisie*/
+/* Boutons et champs de saisie */
 .btn {
 	border: none;
 	height: 40px;
@@ -322,10 +321,7 @@ footer {
 	background-color: #0E2F28;
 }
 
-/** Fin BTN */
-
-
-
+/* Login */
 #login {
 	width: 40%;
 	margin: auto;
@@ -368,8 +364,7 @@ footer {
 	flex-direction: column;
 }
 
-/* !Ajout photo */
-
+/* Ajout photo */
 .container{
     background-color: #E8F1F6;
     width: 100%;
@@ -382,9 +377,11 @@ footer {
 	align-items: center;
 	justify-content: space-evenly;
 }
+
 .image-container{
     width: 40%;
 }
+
 #chosen-image {
     display: block;
     max-width: 100%;
@@ -413,18 +410,13 @@ footer {
     display: none;
 }
 
-
-
 .form-new-project__title input {
 	padding-left: 15px;
 }
 .form-new-project__category select {
 	padding-left: 10px;
 }
-
-
-
-/* !Fin Ajout photo */
+/* fin Ajout photo */
 
 #form-new-project {
 	width: 70%;
@@ -448,11 +440,7 @@ footer {
 	color: red;
 }
 
-/*! Fin données formulaires */
-
-
-/* * Footer */
-
+/* Footer */
 footer nav ul {
 	display: flex;
 	justify-content: center;
@@ -465,9 +453,7 @@ footer nav ul li {
 	text-align: right;
 }
 
-
-/** Login Barre */
-
+/* Login Barre */
 .header-login {
 	margin-top: 100px;
 }
@@ -507,8 +493,7 @@ footer nav ul li {
 }
 
 
-/** Modale */
-
+/* Modale */
 .modal {
 	position: fixed;
 	top: 0;
@@ -594,7 +579,6 @@ footer nav ul li {
 	padding: 4px;
 	border-radius: 3px;
 }
-
 
 .fa-trash-can {
 	position: absolute;
