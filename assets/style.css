@@ -109,7 +109,9 @@ nav ul {
 
 nav li {
 	padding: 0 15px;
-	font-size: 1.2em;
+	font-size: 1.2em;	
+	color: black;
+	font-weight: 900;
 }
 
 nav li img {
@@ -118,12 +120,14 @@ nav li img {
 }
 
 li a:hover {
-	color: #B1663C;
+	color: #000000;
+	font-weight: 900;
 }
 
 li a, a {
 	text-decoration: none;
 	color: black;
+	font-weight: 400;
 }
 
 nav li:nth-child(4n) {
