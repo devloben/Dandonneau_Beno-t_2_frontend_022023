@@ -39,7 +39,7 @@ loginForm.addEventListener("submit", login)
             window.localStorage.setItem("userId", id)
             window.localStorage.setItem("token", token)
 
-            window.location.href = "../index.html"
+            window.location.href = "./index.html"
     } catch(error) {
         displayError(error)
         }
