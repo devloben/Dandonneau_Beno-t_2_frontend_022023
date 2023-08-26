@@ -1,4 +1,5 @@
 # Créez une page web dynamique avec JavaScript
+Exercice réalisé dans le cadre de la formation ["Web Développeur"](https://openclassrooms.com/fr/paths/717-developpeur-web#path-tabs) proposé par OpenClassRooms en mars 2023.
 
 ## Sophie Bluel - Architecte d'intérieur
 
